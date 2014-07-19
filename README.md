@@ -1,4 +1,4 @@
-swagger_test
+test
 ============
 
-swagger test
+test
