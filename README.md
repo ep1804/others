@@ -1,7 +1,7 @@
-test
-============
+Logs, tests, etc
+================
 
-### dependencyies
+### Tests
 
 - swagger (Apache License) https://github.com/wordnik/swagger-ui
 - markdown-style (Licenses per CSS) https://github.com/mixu/markdown-styles
