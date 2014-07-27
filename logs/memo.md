@@ -1,7 +1,7 @@
 Memo
 ----
 
-### Ubuntu
+## Ubuntu
 
 Download Ubuntu image for Vmware
 
@@ -25,7 +25,8 @@ Locale & Time Zone
 * Settings -> Text Entry 
 * Settings -> Time & Date
 
-### VI
+
+## VI
 
 Install vi fully
 
@@ -37,7 +38,7 @@ Install Vundle
 
 * https://github.com/gmarik/Vundle.vim#quick-start
 
-Edit .vimrc, for example, 
+Edit `.vimrc`, for example, 
 
 ```
 set fileencodings=utf-8
@@ -49,7 +50,7 @@ set shiftwidth=2
 ```
 
 
-### Git
+## Git
 
 Install git
 
@@ -66,9 +67,9 @@ git config --global color.ui auto
 ```
 
 
-### .bashrc custom settings
+## Bash
 
-For example,
+Edit `.bashrc`, for example,
 
 ```
 # custom aliases
@@ -93,9 +94,9 @@ export LS_COLORS="$LS_COLORS:*.c=00;32:*.cc=00;32:*.cpp=00;32:*.py=00;32:*.java=
 ```
 
 
-### Some tools
+## Some tools
 
-In `/opt` directory, for example, 
+Installed in `/opt` directory, for example, 
 
 ```
 user@uvm:/opt$ tree -L 2
