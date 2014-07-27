@@ -39,7 +39,7 @@ Install Vundle
 
 * https://github.com/gmarik/Vundle.vim#quick-start
 
-Edit `.vimrc`, for example, 
+Edit `.vimrc` like, for example, 
 
 ```
 set fileencodings=utf-8
@@ -67,10 +67,29 @@ git config --global user.email "..."
 git config --global color.ui auto
 ```
 
+## Some tools
+
+Installed in `/opt` directory, for example, 
+
+```
+user@uvm:/opt$ tree -L 2
+.
+├── apache-maven
+│   └── apache-maven-3.2.2
+├── jdk
+│   └── jdk1.7.0_65
+├── node
+│   └── node-v0.10.29-linux-x86
+├── packages
+│   ├── esl-erlang_17.1-1~ubuntu~trusty_i386.deb
+│   └── rabbitmq-server_3.3.4-1_all.deb
+└── vertx
+    └── vert.x-2.1.2
+```
 
 ## Bash
 
-Edit `.bashrc`, for example,
+Edited `.bashrc` like, for example,
 
 ```
 # custom aliases
@@ -94,23 +113,3 @@ export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd
 export LS_COLORS="$LS_COLORS:*.c=00;32:*.cc=00;32:*.cpp=00;32:*.py=00;32:*.java=00;32:*.class=00;33:*.jar=00;33:*.tar=00;31:*.gz=00;31:*.zip=00;31:"
 ```
 * Note that, `LS_COLORS` setting is added for `tree`
-
-## Some tools
-
-Installed in `/opt` directory, for example, 
-
-```
-user@uvm:/opt$ tree -L 2
-.
-├── apache-maven
-│   └── apache-maven-3.2.2
-├── jdk
-│   └── jdk1.7.0_65
-├── node
-│   └── node-v0.10.29-linux-x86
-├── packages
-│   ├── esl-erlang_17.1-1~ubuntu~trusty_i386.deb
-│   └── rabbitmq-server_3.3.4-1_all.deb
-└── vertx
-    └── vert.x-2.1.2
-```
