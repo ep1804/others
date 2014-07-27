@@ -1,5 +1,6 @@
-Memo
-----
+# Memo
+
+Some basic settings
 
 ## Ubuntu
 
