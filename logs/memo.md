@@ -15,19 +15,17 @@ Workaround: Roll back to previous kernel
 
 ### VI
 
-1. Install vi fully
+Install vi fully
 
 ```
 sudo apt-get install vim
 ```
 
-2. Install Vundle
+Install Vundle
 
 * https://github.com/gmarik/Vundle.vim#quick-start
 
-3. Edit .vimrc
-
-For example, 
+Edit .vimrc, for example, 
 
 ```
 set fileencodings=utf-8
@@ -38,16 +36,48 @@ set shiftwidth=2
 
 ```
 
-### Edit .bashrc
+### Bash
 
-For example, 
+Edit .bashrc, for example, 
 
 ```
+alias ls='ls -F --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
+```
+
+### LS_COLORS for some files
+
+Edit .dircolors, for example,
+```
+.c 00;32
+.cc 00;32
+.cpp 00;32
+.py 00;32
+.java 00;32
+.class 00;33
+.jar 00;33
+.tar 00;31
+.gz 00;31
+.zip 00;31
+```
+
+### Git
+
+Install git
+
+```
+sudo apt-get install vim
+```
+
+Set some global variables
+
+```
+git config --global user.name "..."
+git config --global user.email "..."
+git config --global color.ui auto
 ```
