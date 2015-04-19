@@ -1,2 +1,9 @@
-*.swp
+# java eclipse
+.settings
+.classpath
+.project
 *.class
+
+# vi
+*.swp
+
