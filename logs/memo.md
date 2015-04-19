@@ -76,6 +76,8 @@ user@uvm:/opt$ tree -L 2
 .
 ├── apache-maven
 │   └── apache-maven-3.2.2
+└── groovy
+│   └── groovy-2.3.7
 ├── jdk
 │   └── jdk1.7.0_65
 ├── node
@@ -83,6 +85,8 @@ user@uvm:/opt$ tree -L 2
 ├── packages
 │   ├── esl-erlang_17.1-1~ubuntu~trusty_i386.deb
 │   └── rabbitmq-server_3.3.4-1_all.deb
+├── scala
+│   └── scala-2.11.4
 └── vertx
     └── vert.x-2.1.2
 ```
@@ -108,6 +112,8 @@ export M2="$M2_HOME/bin"
 export MAVEN_OPTS="-Dfile.encoding=UTF8"
 export NODE_BIN="/opt/node/node-v0.10.29-linux-x86/bin"
 export VERTX_BIN="/opt/vertx/vert.x-2.1.2/bin"
+export GROOVY_HOME="/opt/groovy/groovy-2.3.6"
+export SCALA_HOME="/opt/scala/scala-2.11.4"
 export PATH="$VERTX_BIN:$NODE_BIN:$JAVA_HOME/bin:$M2:.:$PATH"
 export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tz=01;31:*.rpm=01;31:*.cpio=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.png=01;35:*.tif=01;35:"
 export LS_COLORS="$LS_COLORS:*.c=00;32:*.cc=00;32:*.cpp=00;32:*.py=00;32:*.java=00;32:*.class=00;33:*.jar=00;33:*.tar=00;31:*.gz=00;31:*.zip=00;31:"
