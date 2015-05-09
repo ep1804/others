@@ -15,5 +15,4 @@ public abstract class MaxFlow {
 	
 	public abstract double maxFlow();
 	public abstract Iterable<Integer> minCut();
-	public abstract Iterable<IFlowEdge> minCutEdges();
 }

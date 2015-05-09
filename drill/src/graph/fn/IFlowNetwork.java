@@ -7,6 +7,5 @@ public interface IFlowNetwork {
 	public int E();
 	public Iterable<IFlowEdge> edges();
 	public Iterable<IFlowEdge> adj(int v);
-	public void addEdge(int v, int w);
-
+	public void addEdge(IFlowEdge e);
 }

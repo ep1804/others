@@ -9,5 +9,5 @@ public interface IFlowEdge{
 	public double capacity();
 	public double flow();
 	public double residualCapacityTo(int v);
-	public void addResidualFlowTo(int v);
+	public void addResidualFlowTo(int v, double delta);
 }

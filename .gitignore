@@ -4,6 +4,9 @@
 .project
 *.class
 
+# drill
+drill/bin
+
 # vi
 *.swp
 
