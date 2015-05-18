@@ -1,10 +1,13 @@
 ## Symbol Table
+
 #### Binary Search Tree
  - ISymbolTable -> BST
+
 #### Left Leaning Red-Black Tree
  - ISymbolTable -> LLRB
 
 ## Graph
+
 #### Graph Basic
  - IGraph -> Graph
  - Tree -> DfsTree, BfsTree
@@ -27,3 +30,13 @@
  - IFlowEdge -> FlowEdge
  - IFlowNetwork -> FlowNetwork
  - MaxFlow -> FordFulkersonMF
+
+## String Sort
+ - CountSort
+ - LSD
+ - MSD
+ - Quick3String
+
+## Trie
+ - ITrieST -> TrieST
+ - ITrieST -> TST
