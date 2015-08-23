@@ -96,7 +96,10 @@ user@uvm:/opt$ tree -L 2
 Edited `.bashrc` like, for example,
 
 ```
-# custom aliases
+PS1='${debian_chroot:+($debian_chroot)}\[\033[00;36m\]\u@\h\[\033[00m\]:\[\033[00;36m\]\w\[\033[00m\]\$ '
+
+# aliases
+alias ls='ls -F --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -105,7 +108,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias eclipse='/home/user/bin/eclipse/eclipse-standard-luna/eclipse'
 
-# custom environment variables 
+# environment variables 
 export JAVA_HOME="/opt/jdk/jdk1.7.0_65"
 export M2_HOME="/opt/apache-maven/apache-maven-3.2.2"
 export M2="$M2_HOME/bin"
