@@ -2,18 +2,24 @@ package radix;
 
 public class MSD {
 
-	private static final int R = 256;
+	private static final int R = 256;	
 	
 	public static void sort(String[] a) {
-		
-	}
-
-	public static void sort(String[] a, String[] aux, int lo, int hi, int d) {
-		// TODO implement subroutine		
 	}
 	
-	public static void main(String[] args) {
-		// TODO unit-test
+	public static void print(String[] a){
+		for(int i=0; i<a.length; i++)
+			System.out.print(a[i] + " ");
+		System.out.println();
+	}
+
+	public static void print(int[] a){
+		for(int i=0; i<a.length; i++)
+			System.out.print(a[i] + " ");
+		System.out.println();
+	}
+	
+	public static void main(String[] args) {		
 	}
 }
 

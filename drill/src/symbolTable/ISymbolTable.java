@@ -1,13 +1,21 @@
 package symbolTable;
 
-//Implementations: BST, LLRB
+//Implementations: BST, RBT
 
-public interface ISymbolTable<Key, Value> {
-	public void put(Key key, Value value);
-	public Value get(Key key);
-	public void delete(Key key);
-	public boolean contains(Key key);
-	public boolean isEmpty(Key key);
+public interface ISymbolTable<K extends Comparable<K>, V> {
+	public void put(K key, V value);
+	public V get(K key);
+	public boolean contains(K key);
+	public boolean isEmpty(K key);	
+	public Iterable<K> keys();
+
+	public void delete(K key);
+	
+	public K min();
+	public K max();
+	public K ceiling(K key);
+	public K floor(K key);
+	
 	public int size();
-	public Iterable<Key> keys();
+	public int rank(K key);
 }

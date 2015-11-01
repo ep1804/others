@@ -1,10 +1,14 @@
+## Sort
+ - MergeSort
+
 ## Symbol Table
 
 #### Binary Search Tree
  - ISymbolTable -> BST
 
-#### Left Leaning Red-Black Tree
- - ISymbolTable -> LLRB
+#### (Left Leaning) Red-Black Tree
+ - ISymbolTable -> RBT
+
 
 ## Graph
 
@@ -38,5 +42,5 @@
  - Quick3String
 
 ## Trie
- - ITrieST -> TrieST
- - ITrieST -> TST
+ - IStringST -> TrieST
+ - IStringST -> TST
