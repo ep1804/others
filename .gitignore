@@ -1,12 +1,18 @@
-# java eclipse
-.settings
+# Eclipse
 .classpath
 .project
+.settings
 *.class
+bin
 
-# drill
-drill/bin
+# Eclipse - Scala
+.cache-main
+.worksheet
+
+
+# RStudio
+.RData
+.Rhistory
 
 # vi
 *.swp
-
