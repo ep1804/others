@@ -37,25 +37,16 @@ object RangeMinQuery {
   }
 
   def rangeMin(tree: Node, idMin: Int, idMax: Int): Int = {
-
-    def loop(node: Node, idMin: Int, idMax: Int, vMin: Int): Int = node match {
-      case Empty => vMin
-      case Leaf(id, v) => if(id >= idMin && id <= idMax) math.min(v, vMin) else vMin
+    def localMin(node: Node): Int = node match {
+      case Empty => Int.MaxValue
+      case Leaf(id, v) => if(idMin <= id && id <= idMax) v else Int.MaxValue
       case Stem(iMin, iMax, vMin, l, r) => {
-        (l, r) match {
-          case (Leaf(id1, v1), Leaf(id2, v2)) =>
-            if(id1 >= idMin && id1 <= idMax) 
-          case (Leaf(id, v), Stem(iMin, iMax, vMin, _, _)) =>
-            
-          case (Stem(iMin, iMax, vMin, _, _), Leaf(id, v)) =>
-            
-          case (Stem(iMin1, iMax1, vMin1, _, _), Stem(iMin2, iMax2, vMin2, _, _)) =>
-            
-        }
+        if(iMax < idMin || idMax < iMin ) Int.MaxValue
+        else if(idMin <= iMin && iMax <= idMax) vMin
+        else math.min(localMin(l), localMin(r))
       }
     }
-
-    loop(tree, idMin, idMax, Int.MaxValue)
+    localMin(tree)
   }
 
   def main(args: Array[String]): Unit = {
@@ -63,12 +54,7 @@ object RangeMinQuery {
     val M = in.next.trim.split(" ")(1).toInt
     val numbers = in.next.trim.split(" ").map(_.toInt).toList.zipWithIndex
     val ranges = in.take(M).toList.map(x => x.trim.split(" ").map(_.toInt).toList)
-
-    println(numbers)
-    println(ranges)
-
     val tree = buildTree(numbers)
-    println(tree)
     val mins = ranges.map { case List(i1, i2) => rangeMin(tree, i1, i2) }
     println(mins.mkString("\n"))
   }
