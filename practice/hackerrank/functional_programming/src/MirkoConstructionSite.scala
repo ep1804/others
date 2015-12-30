@@ -38,17 +38,20 @@ object MirkoConstructionSite {
       lines = lines.takeWhile(x => x._1.slope < lineUpdated.slope) + ((lineUpdated, rangeUpdated), (line, rangeAdd))
     }
 
-    println(points)
-    println(lines)
+    //println(points)
+    //println(lines)
     
-    val pointMap = TreeMap(points.toArray:_*)
     val lineMap = TreeMap(lines.map(x => (x._2._2, x._1)).toMap.toArray:_*)
-
-    println(lineMap)
+    //println(lineMap)
     
-    (pointMap, lineMap)
+    (points, lineMap)
   }
 
+  def search(pm: Map[Int, Line], lm: TreeMap[Float, Line])(x: Int): Line = {
+    if(pm.contains(x)) return pm(x)
+    else lm.from(x.toFloat).head._2
+  }
+  
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
 
@@ -64,8 +67,12 @@ object MirkoConstructionSite {
       }(0)
     }.toList.sortWith { case (Line(i1, s1, l1), Line(i2, s2, l2)) => l1 < l2 }
 
-    println(sortedLines)
+    //println(sortedLines)
 
-    buildMaps(sortedLines)
+    val (pointMap, lineMap) = buildMaps(sortedLines)
+    
+    val sch = search(pointMap, lineMap)_
+    
+    println(qs.map(sch(_).id).mkString("\n"))
   }
 }
