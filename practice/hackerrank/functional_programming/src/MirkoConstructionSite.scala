@@ -1,18 +1,38 @@
 
 
+import scala.collection.mutable.LinkedHashMap
+import scala.collection.immutable.TreeMap
+import scala.collection.mutable.ListBuffer
+
 object MirkoConstructionSite {
 
-  case class Bldg(id: Int, start: Int, slope: Int)
+  case class Line(id: Int, start: Int, slope: Int)
+  
+  def cross(l1: Line, l2: Line): Float = {
+    (l1.start - l2.start).toFloat / (l2.slope - l1.slope).toFloat 
+  }
+  
+  val specialPointMap = LinkedHashMap[Int, Line]()
+  val pointMap = TreeMap[Float, (Line, Line)]()
 
-  def getMaxId(bs: List[Bldg], day: Int) = {
-    bs.sortWith{
-      case (Bldg(i1, s1, l1), Bldg(i2, s2, l2)) => { 
-        val cmp = (s1 + l1 * day) - (s2 + l2 * day)
-        if(cmp > 0) true
-        else if(cmp == 0 && i1 > i2) true
-        else false
+  val lines = ListBuffer[Line]()
+  val ranges = ListBuffer[Tuple2[Float, Float]]()
+  
+  def buildPoints(ls: List[Line]) = {
+    
+    lines += ls(0)
+    ranges += ((Float.MinValue, Float.MaxValue))
+
+    for(i <- (2 until ls.length)){
+      val line = ls(i)
+      val cps = lines.filter(x => {
+        val cp = cross(x, line)
+        if(cp >= crossPoints(i - 1)
+        } )
       }
-    }(0).id
+      
+    }
+    
   }
 
   def main(args: Array[String]): Unit = {
@@ -21,15 +41,17 @@ object MirkoConstructionSite {
     val nq = in.next.split(" ").map(_.toInt)
     val starts = in.next.split(" ").map(_.toInt).toList
     val slopes = in.next.split(" ").map(_.toInt).toList
-    val bds = ((starts zip slopes) zip (1 to nq(0))) map{case (a, b) => Bldg(b, a._1, a._2) }
+    val lines = ((starts zip slopes) zip (1 to nq(0))) map{case (a, b) => Line(b, a._1, a._2) }
     val qs = in.take(nq(1)).map(_.toInt).toList
 
-    val efBds = bds.groupBy { x => x.slope }.map {
-      case (slp, lines) => lines.sortWith{
-        case (Bldg(i1, s1, l1), Bldg(i2, s2, l2)) => if(s1 > s2) true else if(s1 == s2 && i1 > i2) true else false   
+    val sortedLines = lines.groupBy { x => x.slope }.map {
+      case (slp, ls) => ls.sortWith{
+        case (Line(i1, s1, l1), Line(i2, s2, l2)) => if(s1 > s2) true else if(s1 == s2 && i1 > i2) true else false   
       }(0)
-    }.toList
+    }.toList.sortWith{ case (Line(i1, s1, l1), Line(i2, s2, l2)) => l1 < l2 }
     
-    println(qs.map(getMaxId(efBds, _)).mkString("\n"))
+    println(sortedLines)
+    
+    buildPoints(sortedLines)
   }
 }
