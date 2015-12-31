@@ -34,11 +34,18 @@ object MirkoConstructionSite {
       } else {
         
         // Update points
+        points = points.filterKeys(_ < cp)
         if (isInt(cp)) {
           val p = cp.toInt
-          if (points.contains(p) && points(p).id > line.id) Unit
-          else{
-            points = points.filterKeys( _ != p ) + ((p, line))
+          if (points.contains(p)){
+            if(points(p).id < line.id)
+              points = points + ((p, line))
+          }else{
+            val lineOld = linesCross.map(_._1).maxBy(_.id)
+            if(lineOld.id > line.id)
+              points = points + ((p, lineOld))
+            else
+              points = points + ((p, line))
           }
         }
 
