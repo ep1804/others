@@ -36,11 +36,11 @@ object MirkoConstructionSite {
       lines = lines.takeWhile(x => x._1.slope < lineUpdated.slope) + ((lineUpdated, rangeUpdated), (line, rangeAdd))
     }
 
-    //println(points)
-    //println(lines)
+    println(points)
+    println(lines)
     
     val lineMap = TreeMap(lines.map(x => (x._2._2, x._1)).toMap.toArray:_*)
-    //println(lineMap)
+    println(lineMap)
     
     (points, lineMap)
   }
@@ -61,11 +61,11 @@ object MirkoConstructionSite {
 
     val sortedLines = lines.groupBy { x => x.slope }.map {
       case (slp, ls) => ls.sortWith {
-        case (Line(i1, s1, l1), Line(i2, s2, l2)) => if (s1 > s2) true else if (s1 == s2 && i1 > i2) true else false
-      }(0)
+        case (Line(i1, s1, _), Line(i2, s2, _)) => if (s1 > s2) true else if (s1 == s2 && i1 > i2) true else false
+      }.head
     }.toList.sortWith { case (Line(i1, s1, l1), Line(i2, s2, l2)) => l1 < l2 }
 
-    //println(sortedLines)
+    println(sortedLines)
 
     val (pointMap, lineMap) = buildMaps(sortedLines)
     
