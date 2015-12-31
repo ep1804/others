@@ -73,7 +73,7 @@ object MirkoConstructionSite {
 
   def search(pm: LinkedHashMap[Int, Int], lm: TreeMap[Float, Line])(x: Int): Int = {
     if (pm.contains(x)) return pm(x)
-    else lm.iteratorFrom(x.toFloat).next()._2.id
+    else lm.iteratorFrom(x.toFloat).next()._2.id // iteratorFrom is faster
   }
 
   def main(args: Array[String]): Unit = {
