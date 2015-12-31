@@ -1,4 +1,5 @@
 import scala.collection.immutable.TreeMap
+import scala.collection.mutable.LinkedHashMap
 
 // Height of building given number of elapsed days is considered as a line on day-height plane
 
@@ -13,8 +14,8 @@ object MirkoConstructionSite {
 
   def buildMaps(ls: List[Line]) = {
 
-    // x coordinate of points where lines cross, x >= 0
-    var points = Map[Int, Line]()
+    // x coordinate of point's IDs where lines cross, x >= 0
+    val points = LinkedHashMap[Int, Int]()
 
     // lines at the top with its dominant range, initialized with the first line
     var lines = Map[Line, Tuple2[Float, Float]]((ls(0), (Float.MinValue, Float.MaxValue)))
@@ -28,24 +29,24 @@ object MirkoConstructionSite {
       if (cp < 0) {
 
         // This case, current line is above all other lines. so re-initialize all
-        points = Map[Int, Line]()
+        points.clear()
         lines = Map[Line, Tuple2[Float, Float]]((line, (Float.MinValue, Float.MaxValue)))
 
       } else {
         
         // Update points
-        points = points.filterKeys(_ < cp)
+        points.retain((k, _) => k < cp)
         if (isInt(cp)) {
           val p = cp.toInt
           if (points.contains(p)){
-            if(points(p).id < line.id)
-              points = points + ((p, line))
+            if(points(p) < line.id)
+              points += ((p, line.id))
           }else{
-            val lineOld = linesCross.map(_._1).maxBy(_.id)
-            if(lineOld.id > line.id)
-              points = points + ((p, lineOld))
+            val id0 = linesCross.map(_._1).maxBy(_.id).id
+            if(id0 > line.id)
+              points += ((p, id0))
             else
-              points = points + ((p, line))
+              points += ((p, line.id))
           }
         }
 
@@ -66,9 +67,9 @@ object MirkoConstructionSite {
     (points, lineMap)
   }
 
-  def search(pm: Map[Int, Line], lm: TreeMap[Float, Line])(x: Int): Line = {
+  def search(pm: LinkedHashMap[Int, Int], lm: TreeMap[Float, Line])(x: Int): Int = {
     if (pm.contains(x)) return pm(x)
-    else lm.from(x.toFloat).head._2
+    else lm.from(x.toFloat).head._2.id
   }
 
   def main(args: Array[String]): Unit = {
@@ -92,6 +93,6 @@ object MirkoConstructionSite {
 
     val sch = search(pointMap, lineMap)_
 
-    println(qs.map(sch(_).id).mkString("\n"))
+    println(qs.map(sch(_)).mkString("\n"))
   }
 }
