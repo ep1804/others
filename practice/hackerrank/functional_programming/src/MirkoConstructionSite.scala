@@ -1,55 +1,69 @@
-import scala.collection.mutable.LinkedHashMap
 import scala.collection.immutable.TreeMap
+
+// Height of building given number of elapsed days is considered as a line on day-height plane
 
 object MirkoConstructionSite {
 
   case class Line(id: Int, start: Int, slope: Int)
 
-  def cross(l1: Line, l2: Line): Float = {
+  def cross(l1: Line, l2: Line): Float =
     (l1.start - l2.start).toFloat / (l2.slope - l1.slope).toFloat
-  }
 
   def isInt(f: Float): Boolean = math.round(f).toFloat == f
 
   def buildMaps(ls: List[Line]) = {
-    
+
+    // x coordinate of points where lines cross, x >= 0
     var points = Map[Int, Line]()
+
+    // lines at the top with its dominant range, initialized with the first line
     var lines = Map[Line, Tuple2[Float, Float]]((ls(0), (Float.MinValue, Float.MaxValue)))
 
+    // update points and lines with remaining lines
     for (i <- (1 until ls.length)) {
       val line = ls(i)
-      val lineCross = lines.filter(x => { val cp = cross(x._1, line); cp >= x._2._1 && cp <= x._2._2 })
-      val cp = cross(line, lineCross.head._1)
+      val linesCross = lines.filter { case (l, rg) => { val cp = cross(l, line); cp >= rg._1 && cp <= rg._2 } }
+      val cp = cross(line, linesCross.head._1)
 
-      // Update special points (points where lines cross)
-      if (isInt(cp)) {
-        val p = cp.toInt
-        var lineAdd: Line = line
-        if (points.contains(p) && points(p).id > line.id) lineAdd = points(p)
-        points = points.filterKeys { x => x < p } + ((p, lineAdd))
+      if (cp < 0) {
+
+        // This case, current line is above all other lines. so re-initialize all
+        points = Map[Int, Line]()
+        lines = Map[Line, Tuple2[Float, Float]]((line, (Float.MinValue, Float.MaxValue)))
+
+      } else {
+        
+        // Update points
+        if (isInt(cp)) {
+          val p = cp.toInt
+          if (points.contains(p) && points(p).id > line.id) Unit
+          else{
+            points = points.filterKeys( _ != p ) + ((p, line))
+          }
+        }
+
+        // Update line segments
+        val lineUpdated = linesCross.keySet.minBy(_.slope)
+        val rangeUpdated = (lines(lineUpdated)._1, cp)
+        val rangeAdd = (cp, Float.MaxValue)
+        lines = lines.filter(_._1.slope < lineUpdated.slope) + ((lineUpdated, rangeUpdated), (line, rangeAdd))
       }
-
-      // Update line segments
-      val lineUpdated = lineCross.keySet.minBy(_.slope)
-      val rangeUpdated = (lines(lineUpdated)._1, cp)
-      val rangeAdd = (cp, Float.MaxValue)
-      lines = lines.takeWhile(x => x._1.slope < lineUpdated.slope) + ((lineUpdated, rangeUpdated), (line, rangeAdd))
     }
 
-    println(points)
-    println(lines)
-    
-    val lineMap = TreeMap(lines.map(x => (x._2._2, x._1)).toMap.toArray:_*)
-    println(lineMap)
-    
+    //println(points)
+    //println(lines)
+
+    val lineMap = TreeMap(lines.map{case (l, rg) => (rg._2, l)}.toMap.toArray: _*)
+    //println(lineMap)
+
     (points, lineMap)
   }
 
   def search(pm: Map[Int, Line], lm: TreeMap[Float, Line])(x: Int): Line = {
-    if(pm.contains(x)) return pm(x)
+    if (pm.contains(x)) return pm(x)
     else lm.from(x.toFloat).head._2
   }
-  
+
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
 
@@ -65,12 +79,12 @@ object MirkoConstructionSite {
       }.head
     }.toList.sortWith { case (Line(i1, s1, l1), Line(i2, s2, l2)) => l1 < l2 }
 
-    println(sortedLines)
+    //println(sortedLines)
 
     val (pointMap, lineMap) = buildMaps(sortedLines)
-    
+
     val sch = search(pointMap, lineMap)_
-    
+
     println(qs.map(sch(_).id).mkString("\n"))
   }
 }
