@@ -18,7 +18,9 @@ object MirkoConstructionSite {
     val points = LinkedHashMap[Int, Int]()
 
     // lines at the top with its dominant range, initialized with the first line
-    var lines = Map[Line, Tuple2[Float, Float]]((ls(0), (Float.MinValue, Float.MaxValue)))
+    val lines = LinkedHashMap[Line, Tuple2[Float, Float]]()
+    
+    lines += ((ls(0), (Float.MinValue, Float.MaxValue)))
 
     // update points and lines with remaining lines
     for (i <- (1 until ls.length)) {
@@ -30,7 +32,8 @@ object MirkoConstructionSite {
 
         // This case, current line is above all other lines. so re-initialize all
         points.clear()
-        lines = Map[Line, Tuple2[Float, Float]]((line, (Float.MinValue, Float.MaxValue)))
+        lines.clear()
+        lines += ((line, (Float.MinValue, Float.MaxValue)))
 
       } else {
         
@@ -54,7 +57,8 @@ object MirkoConstructionSite {
         val lineUpdated = linesCross.keySet.minBy(_.slope)
         val rangeUpdated = (lines(lineUpdated)._1, cp)
         val rangeAdd = (cp, Float.MaxValue)
-        lines = lines.filter(_._1.slope < lineUpdated.slope) + ((lineUpdated, rangeUpdated), (line, rangeAdd))
+        lines.retain((k, v) => k.slope < lineUpdated.slope) 
+        lines += ((lineUpdated, rangeUpdated), (line, rangeAdd))
       }
     }
 
@@ -69,7 +73,7 @@ object MirkoConstructionSite {
 
   def search(pm: LinkedHashMap[Int, Int], lm: TreeMap[Float, Line])(x: Int): Int = {
     if (pm.contains(x)) return pm(x)
-    else lm.from(x.toFloat).head._2.id
+    else lm.iteratorFrom(x.toFloat).next()._2.id
   }
 
   def main(args: Array[String]): Unit = {
