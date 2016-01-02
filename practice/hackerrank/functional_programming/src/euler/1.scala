@@ -1,6 +1,6 @@
 package euler
 
-object Solution {
+object Multiple35 {
   
   def sumTo(n: Long): Long = n * (n + 1) / 2
   
