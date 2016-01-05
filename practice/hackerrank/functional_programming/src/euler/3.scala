@@ -8,7 +8,7 @@ object LargestPrimeFactor {
     2L #:: from3by2.filter(i => primes.takeWhile(j => j * j <= i).forall(i % _ > 0))
 
   // c.f.
-  //def isPrime(n: Long): Boolean = primes.dropWhile(n % _ != 0)(0) == n
+  //def isPrime(n: Long): Boolean = primes.takeWhile(_ <= math.sqrt(n)).filter(n % _ == 0).size == 0
 
   // repeat division by p until there's no p factor in n
   def divRep(n: Long, p: Long): Long = 
@@ -16,13 +16,13 @@ object LargestPrimeFactor {
     else divRep(n / p, p)
     
   def solve(n: Long): Long = {
-    val p = primes.dropWhile(n % _ != 0)(0) // smallest prime factor
-    if( p == n ) n
-    else {
-      val n2 = divRep(n, p)
-      if(n2 == 1) p
-      else solve(n2)
-    }    
+    val ps = primes.takeWhile(_ <= math.sqrt(n)).filter(n % _ == 0)
+    if(ps.size == 0) return n  // n is prime
+    
+    val p = ps.last
+    val n2 = divRep(n, p)
+    if(n2 == 1) p
+    else solve(n2)
   }
 
   def main(args: Array[String]): Unit = {
