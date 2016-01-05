@@ -2,11 +2,11 @@ package euler
 
 object LargestPrimeFactor {
   
-  lazy val from3: Stream[Long] = 
-    3L #:: from3.map(_ + 1)
+  lazy val from2: Stream[Long] = 2L #:: from2.map(_ + 1)
   
-  lazy val primes: Stream[Long] = 
-    2L #:: from3.filter(i => primes.takeWhile(j => j * j <= i).forall(k => i % k > 0))
+  def sieve(s: Stream[Long]): Stream[Long] = s.head #:: sieve(s.tail.filter( _ % s.head != 0))
+  
+  val primes = sieve(from2)
     
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
