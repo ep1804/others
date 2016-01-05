@@ -2,20 +2,20 @@ package euler
 
 object LargestPrimeFactor {
   
-  lazy val from3by2: Stream[Long] = 3L #:: from3by2.map(_ + 2)
-  
-  lazy val primes: Stream[Long] = 
-    2L #:: from3by2.filter(i => primes.takeWhile(j => j * j <= i).forall(k => i % k > 0))
+  def largestPrimeFactor(b : BigInt) = {
+  def loop(f:BigInt, n: BigInt): BigInt =
+     if (f == n) n else 
+     if (n % f == 0) loop(f, n / f) 
+     else loop(f + 1, n)
+  loop (BigInt(2), b)
+}
     
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
     
     val T = in.next.toInt
-    val ns = in.take(T).map(_.toLong)
+    val ns = in.take(T).map(BigInt(_))
     
-    ns foreach ( x => {
-      val primeFactors = primes.takeWhile(_ <= x).filter(x % _ == 0)
-      println(primeFactors.last)
-    })
+    ns map largestPrimeFactor foreach println
   }  
 }
