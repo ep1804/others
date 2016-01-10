@@ -4,12 +4,13 @@ object SpecialPythagoreanTriplet {
   
   def maxProduct(n: Int): Int = {
     val ts = for{
-      c <- (1 to (n - 2))
-      b <- (1 until c)
-      val a = n - c - b
-      if (a > 0)
-      if (a * a + b * b == c * c)      
-    } yield a * b * c
+      a <- (1 to (n - 2))
+      if (n > 2 * a)
+      val b = n.toFloat * (n - 2 * a).toFloat / 2 / (n - a)
+      if (b % 1 == 0)
+      val c = n - a - b.toInt
+      if (c > 0)
+    } yield a * b.toInt * c
     
     if(ts.isEmpty) -1
     else ts.max
