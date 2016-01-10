@@ -2,12 +2,12 @@ package euler
 
 object SpecialPythagoreanTriplet {
   
-  def maxProduct(lo: Int, hi: Int): Int = {
+  def maxProduct(n: Int): Int = {
     val ts = for{
-      c <- (lo to hi)
-      b <- (lo until c)
-      a <- (lo until b)
-      if (a + b + c == hi)
+      c <- (1 to (n - 2))
+      b <- (1 until c)
+      val a = n - c - b
+      if (a > 0)
       if (a * a + b * b == c * c)      
     } yield a * b * c
     
@@ -20,7 +20,7 @@ object SpecialPythagoreanTriplet {
     val T = in.next.toInt
     val ns = in.take(T).map(_.toInt)
     
-    ns foreach {n => println(maxProduct(1, n))}
+    ns foreach {n => println(maxProduct(n))}
   }
   
 }
