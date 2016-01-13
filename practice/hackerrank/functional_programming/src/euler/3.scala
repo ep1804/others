@@ -15,15 +15,16 @@ object LargestPrimeFactor {
     if(n % p != 0) n
     else divRep(n / p, p)
   
-  // 1) check if it is prime or not
-  // 2) find smallest prime factor and divRep and ...
   def solve(n: Long): Long = {
-    val ps = primes.takeWhile(_ <= math.sqrt(n)).filter(n % _ == 0)
+      
+    // if n is prime, return n
+    val ps = primes.takeWhile(_ <= math.sqrt(n)).filter(n % _ == 0) // small prime factors
     if(ps.size == 0) return n  // n is prime
     
-    val p = ps.head // smallest prime factor
-    val n2 = divRep(n, p)
-    if(n2 == 1) p
+    // remove small prime factors from n -> n2
+    val n2 = ps.foldLeft(n)(divRep(_ , _))
+    
+    if(n2 == 1) ps.last
     else solve(n2)
   }
 
