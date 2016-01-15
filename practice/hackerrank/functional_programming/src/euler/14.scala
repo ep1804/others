@@ -2,29 +2,47 @@ package euler
 
 object IntestCollatzSequence {
 
-  // infinite series of collatz(n)  
-  lazy val cs: Stream[Int] = Stream.from(1) map (n => {
-    def loop(x: Int, acc: Int = 1): Int = {
-      if (x == 1) acc
-      else if (x < n) acc + cs(x - 1) - 1
-      else if (x % 2 == 0) loop(x / 2, acc + 1)
-      else loop(3 * x + 1, acc + 1)
-    }
-    loop(n)
-  })
-
-  // infinite series of tuples that denotes: (max collatx(n) upto n, max index)  
-  lazy val mcs: Stream[(Int, Int)] =
-    (1, 0) #:: (mcs zip cs.zipWithIndex.tail).map { case ((m, mi), (c, ci)) => if (m > c) (m, mi) else (c, ci) }
+  val fin = 5000000
 
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
     val t = in.next.trim.toInt
     val ns = in.take(t).map(_.trim.toInt)
 
-    println("Collatz length series upto 17th: " + cs.take(17).toList)
-    println("Max collatz length value and index series upto 17th: " + mcs.take(17).toList)
+    val cs = Array.ofDim[Int](fin)
 
-    ns foreach { n => println(mcs(n - 1)._2 + 1) }
+    for (i <- 1 to fin) {
+      var x: Long = i
+      var acc = 1
+
+      while (x != 1) {
+        if (x < i) {
+          acc = acc + cs((x - 1).toInt) - 1
+          x = 1
+        } else if (x % 2 == 0) {
+          x = x / 2
+          acc = acc + 1
+        } else {
+          x = 3 * x + 1
+          acc = acc + 1
+        }
+      }
+      cs(i-1) = acc
+    }
+
+    val mcIdxs = Array.ofDim[Int](fin) // max collatz number's index series
+
+    var max = 0
+    var maxIdx = 0
+    
+    for(i <- 0 until fin){
+      if(cs(i) >= max){
+        max = cs(i)
+        maxIdx = i
+      }
+      mcIdxs(i) = maxIdx      
+    }
+      
+    ns foreach { n => println(mcIdxs(n-1) + 1) }
   }
 }
