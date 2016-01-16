@@ -128,7 +128,7 @@ best <- TRUE
 k <- 5
 
 #Run LDA using Gibbs sampling
-ldaOut <- LDA( dtm,k, method = "Gibbs", 
+ldaOut <- LDA( dtm, k, method = "Gibbs", 
                control = list( nstart = nstart, seed = seed, best = best, 
                                burnin = burnin, iter = iter, thin = thin ))
 
