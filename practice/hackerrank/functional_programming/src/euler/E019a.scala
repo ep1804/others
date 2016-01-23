@@ -11,7 +11,7 @@ object CountingSundays2 {
     val J = (y1 / 100).toInt
     if (calendar == "Gregorian")
       (d + 13 * (m1 + 1) / 5 + K + K / 4 + J / 4 + 5 * J) % 7
-    else
+    else // Julian
       (d + 13 * (m1 + 1) / 5 + K + K / 4 + 5 * J) % 7
   }
 
