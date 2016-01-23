@@ -1,6 +1,6 @@
 package euler
 
-object E020 {
+object FactorialDigitSum  {
   
   lazy val factorial: Stream[BigInt] = 
     1 #:: 1 #:: (Stream.from(2) zip factorial.tail).map{case (a, b) => a * b }

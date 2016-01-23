@@ -1,6 +1,6 @@
 package euler
 
-object E022 {
+object NamesScores {
   
   def score(s: String): Int = s.map(_ - 'A' + 1).sum 
   

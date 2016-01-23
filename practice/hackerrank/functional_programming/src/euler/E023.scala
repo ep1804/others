@@ -1,7 +1,7 @@
 package euler
 
-object AmicableNumbers  {
-
+object NonAbundantSums {
+  
   lazy val primes: Stream[Int] =
     2 #:: Stream.from(3, 2).filter(x => primes.takeWhile(_ <= math.sqrt(x)).forall(x % _ != 0))
 
@@ -40,30 +40,34 @@ object AmicableNumbers  {
     facs
   }
 
-  def d(n: Int): Int = {
-    val factors = factorize(n).map(x => (0 to x._2).map(math.pow(x._1, _).toInt)).
+  // sum of proper divisors of n
+  def sumDiv(n: Int): Int = {
+    val divisors = factorize(n).map(x => (0 to x._2).map(math.pow(x._1, _).toInt)).
       foldLeft(Vector(1)) { case (a, b) => a.flatMap { x => b.map(_ * x) } }
-    factors.sum - n
+    divisors.sum - n
   }
-
-  val dCache = collection.mutable.Map[Int, Int]()
-
-  def dc(n: Int): Int = {
-    if (dCache.contains(n)) dCache(n)
-    else {
-      val v = d(n)
-      dCache.put(n, v)
-      v
+  
+  lazy val abundants = Stream.from(12).filter(x => sumDiv(x) > x)
+  
+  def sumOfTwoAbundants(n: Int): Boolean = {
+    if(n > 28123) true
+    else{
+      val as = abundants.takeWhile(_ < n - 11).toIndexedSeq
+      import scala.collection.Searching._
+      
+      ! as.forall(x => as.search(n - x) match {
+        case Found(_) => false
+        case InsertionPoint(_) => true 
+      })
+      
     }
   }
   
-  lazy val amicables = Stream.from(2).filter { a => dc(a) != a && dc(dc(a)) == a }
-
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
-    val t = in.next.trim.toInt
-    val ns = in.take(t).map(_.trim.toInt)
+    val t = in.next.toInt
+    val ns = in.take(t).map(_.toInt)
 
-    ns foreach (n => println(amicables.takeWhile(_ < n).sum))
+    ns foreach {n => println(if(sumOfTwoAbundants(n)) "YES" else "NO")}
   }
 }
