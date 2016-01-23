@@ -3,7 +3,7 @@ package euler
 object E020 {
   
   lazy val factorial: Stream[BigInt] = 
-    0 #:: 1 #:: (Stream.from(2) zip factorial.tail).map{case (a, b) => a * b }
+    1 #:: 1 #:: (Stream.from(2) zip factorial.tail).map{case (a, b) => a * b }
   lazy val digitSum = factorial.map(x => x.toString.map(_ - '0').sum) 
   
   def main(args: Array[String]): Unit = {
