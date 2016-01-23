@@ -6,7 +6,7 @@ object NonAbundantSums {
     2 #:: Stream.from(3, 2).filter(x => primes.takeWhile(_ <= math.sqrt(x)).forall(x % _ != 0))
 
   // return Seq(prime factors, power)
-  def factorize(n: Int): Seq[(Int, Int)] = {
+  def factor(n: Int): Seq[(Int, Int)] = {
 
     def divRep(a: Int, b: Int): (Int, Int) = {
       def loop(a: Int, b: Int, count: Int = 0): (Int, Int) =
@@ -39,15 +39,14 @@ object NonAbundantSums {
     loop(n)
     facs
   }
-
-  // sum of proper divisors of n
-  def sumDiv(n: Int): Int = {
-    val divisors = factorize(n).map(x => (0 to x._2).map(math.pow(x._1, _).toInt)).
-      foldLeft(Vector(1)) { case (a, b) => a.flatMap { x => b.map(_ * x) } }
-    divisors.sum - n
-  }
   
-  lazy val abundants = Stream.from(12).filter(x => sumDiv(x) > x)
+  def divisor(n: Int): Seq[Int] = 
+    factor(n).map(x => (0 to x._2).map(math.pow(x._1, _).toInt)).
+      foldLeft(Seq(1)) { case (a, b) => a.flatMap { x => b.map(_ * x) } }
+
+  def properDivisorSum(n: Int): Int = divisor(n).sum - n
+  
+  lazy val abundants = Stream.from(12).filter(x => properDivisorSum(x) > x)
   
   def sumOfTwoAbundants(n: Int): Boolean = {
     if(n > 28123) true
