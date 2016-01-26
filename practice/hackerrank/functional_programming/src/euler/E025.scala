@@ -2,29 +2,29 @@ package euler
 
 object NDigitFibonacciNumber {
 
-  val map = collection.mutable.Map[Int, Int]((1, 1))
+  // Solution by using closed-form expression of fibonacci sequence
+  // https://en.wikipedia.org/wiki/Golden_ratio#Relationship_to_Fibonacci_sequence
   
-  def buildMap(maxDigit: Int = 5000) = {    
-    def loop(f1: BigInt, f2: BigInt, f2Digit: Int, f3Idx: Int): Unit = {
-      val f3 = f1 + f2
-      val f3Digit = f3.toString.length
-      if (f3Digit > maxDigit) Unit
-      else {
-        if(f3Digit > f2Digit) map.put(f3Digit, f3Idx)        
-        loop(f2, f3, f3Digit, f3Idx + 1)
-      }
-    }    
-    loop(1, 1, 1, 3)
-  }
+  val ¥õ = (1.0 + math.sqrt(5.0)) / 2.0  // golden ratio
   
+  // fibonacci number digits
+  // Approximation not using (-¥õ)^n term. But no problem until digit 5000
+  def fd(n: Int) = (n * math.log10(¥õ) - math.log10(5) / 2 + 1).toInt 
   
+  // (digits, index)
+  lazy val fdi = (0, 0) #:: (1, 1) #:: Stream.from(2).map(x => (fd(x), x))
+  
+  // series of fibonacci indices where digit changes
+  lazy val fdi2: Stream[Int] = 
+    (fdi zip fdi.tail).filter { case ((a, _), (b, _)) => a != b }. map { case (a, b) => b._2 }
+
+  val fdi3 = fdi2.take(5000).toArray
+    
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
     val t = in.next.toInt
     val ns = in.take(t).map(_.toInt)
-
-    buildMap()
-  
-    ns foreach { n => println(map(n)) }
+   
+    ns foreach { n => println(fdi3(n-1)) }
   }
 }
