@@ -1,7 +1,6 @@
 package euler
 
 object NDigitFibonacciNumber {
-
   
   val ¥õ = (1.0 + math.sqrt(5.0)) / 2.0  // golden ratio
   
@@ -18,7 +17,6 @@ object NDigitFibonacciNumber {
   // (0, 0) is inserted at the first position for convenience of building fdi2 later
   lazy val fdi = (0, 0) #:: (1, 1) #:: Stream.from(2).map(x => (fd(x), x))
   
-  
   // series of fibonacci indices where digit changes
   lazy val fdi2: Stream[Int] = 
     (fdi zip fdi.tail).filter { case ((a, _), (b, _)) => a != b }. map { case (a, b) => b._2 }
@@ -30,8 +28,6 @@ object NDigitFibonacciNumber {
     val t = in.next.toInt
     val ns = in.take(t).map(_.toInt)
    
-    println((1 to 20).map(fd(_)).mkString(" "))
-    
     ns foreach { n => println(fdi3(n-1)) }
   }
 }
