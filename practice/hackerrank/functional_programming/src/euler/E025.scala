@@ -2,31 +2,29 @@ package euler
 
 object NDigitFibonacciNumber {
 
-  lazy val fib: Stream[BigInt] =
-    1 #:: 1 #:: (fib zip fib.tail).map { case (a, b) => (a + b) }
-
-  // (digits, index)
-  lazy val fib2 = 
-    (0, 0) #:: (fib zip Stream.from(1)).map { case (a, b) => (a.toString.length, b) }
-
-  // series of fibonacci indices where digit changes)
-  //lazy val fib3: Stream[Int] = 
-  //  (fib2 zip fib2.tail).filter { case ((a, _), (b, _)) => a != b }. map { case (a, b) => b._2 }
-
-  val fib2Cache = fib2.takeWhile{ case(a, b) => a <= 5000}.toArray
-  val fib3Cache = (fib2 zip fib2.tail).filter { case ((a, _), (b, _)) => a != b }. map { case (a, b) => b._2 }
-    
+  val map = collection.mutable.Map[Int, Int]((1, 1))
+  
+  def buildMap(maxDigit: Int = 5000) = {    
+    def loop(f1: BigInt, f2: BigInt, f2Digit: Int, f3Idx: Int): Unit = {
+      val f3 = f1 + f2
+      val f3Digit = f3.toString.length
+      if (f3Digit > maxDigit) Unit
+      else {
+        if(f3Digit > f2Digit) map.put(f3Digit, f3Idx)        
+        loop(f2, f3, f3Digit, f3Idx + 1)
+      }
+    }    
+    loop(1, 1, 1, 3)
+  }
+  
+  
   def main(args: Array[String]): Unit = {
     val in = io.Source.stdin.getLines
     val t = in.next.toInt
     val ns = in.take(t).map(_.toInt)
 
-    ns foreach { n => println(fib3Cache(n - 1)) }
-
-    /*
-    println(fib.take(50).mkString(" "))
-    println(fib2.take(50).mkString(" "))
-    println(fib3.take(5).mkString(" "))
-    */
+    buildMap()
+  
+    ns foreach { n => println(map(n)) }
   }
 }
