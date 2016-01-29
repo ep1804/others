@@ -43,6 +43,12 @@ public abstract class ShortestPath {
 	}
 	
 	protected boolean relax(IDirectedEdge e){
+		double d1 = distTo[e.from()] + e.weight();
+		if(distTo[e.to()] > d1){
+			distTo[e.to()] = d1;
+			edgeTo[e.to()] = e;
+			return true;
+		}
 		return false;
 	}
 }
