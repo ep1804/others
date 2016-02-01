@@ -6,7 +6,7 @@ public interface ISymbolTable<K extends Comparable<K>, V> {
 	public void put(K key, V value);
 	public V get(K key);
 	public boolean contains(K key);
-	public boolean isEmpty(K key);	
+	public boolean isEmpty();	
 	public Iterable<K> keys();
 
 	public void delete(K key);
