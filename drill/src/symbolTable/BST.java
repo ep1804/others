@@ -159,12 +159,59 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 			if(n.right == null) cnt = n.count;
 			else cnt = n.count - n.right.count;
 			return rk + cnt;
-		}			
+		}
 	}
-
+	
 	@Override
 	public int rank(K key) {
 		return rank(root, key, 0);
+	}
+	
+	private void harvest(Node<K,V> n, K lo, K hi, List<Node<K,V>> buf){
+		if(n == null) return;
+		if(hi.compareTo(lo) < 0) return;
+				
+		int cmp1 = n.key.compareTo(lo);
+		int cmp2 = n.key.compareTo(hi);
+		
+		if(cmp1 < 0) harvest(n.right, lo, hi, buf);
+		else if(cmp1 == 0){
+			buf.add(n);
+			harvest(n.right, lo, hi, buf);			
+		}else if(cmp1 > 0 && cmp2 < 0){
+			buf.add(n);
+			harvest(n.left, lo, hi, buf);
+			harvest(n.right, lo, hi, buf);
+		}else if(cmp2 == 0){
+			buf.add(n);
+			harvest(n.left, lo, hi, buf);
+		}else{
+			harvest(n.left, lo, hi, buf);
+		}
+	}
+	
+	@Override
+	public Iterable<V> harvestValues(K lo, K hi) {
+		List<Node<K, V>> buf = new ArrayList<Node<K,V>>();
+		
+		harvest(root, lo, hi, buf);
+		
+		List<V> res = new ArrayList<V>();
+		for(Node<K,V> n : buf)
+			res.add(n.value);
+		return res;
+	}
+
+	@Override
+	public Iterable<K> harvestKeys(K lo, K hi) {
+		List<Node<K, V>> buf = new ArrayList<Node<K,V>>();
+		
+		harvest(root, lo, hi, buf);
+		
+		List<K> res = new ArrayList<K>();
+		for(Node<K,V> n : buf)
+			res.add(n.key);
+		return res;
 	}
 	
 	private void printLoop(Node<K,V> n, StringBuilder sb){
@@ -184,7 +231,7 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		printLoop(root, sb);
 		return sb.toString();
 	}
-
+	
 	public static void main(String[] args) {
 		BST<Integer, String> tree = new BST<Integer, String>();
 		tree.put(12, "S");
@@ -238,6 +285,13 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		System.out.println(tree.rank(9));
 		System.out.println(tree.rank(10));
 		System.out.println(tree.rank(11));
+		
+		System.out.println(tree.harvestKeys(2, 7));
+		System.out.println(tree.harvestKeys(3, 7));
+		System.out.println(tree.harvestKeys(3, 10));
+		
+		System.out.println(tree.harvestValues(2, 7));
+		System.out.println(tree.harvestValues(3, 7));
+		System.out.println(tree.harvestValues(3, 10));
 	}
-
 }
