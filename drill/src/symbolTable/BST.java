@@ -89,7 +89,9 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 
 	@Override
 	public void delete(K key) {
-		// TODO Auto-generated method stub
+		// this is tombstone method. TODO Hibbard deletion
+		Node<K, V> n = get(key, root);
+		if(n != null) n.value = null;
 	}
 	
 	private K min(Node<K, V> n, K mi){
@@ -146,6 +148,7 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		else return root.count;
 	}
 	
+	// FIXME incorrect due to tombstone delete
 	private int rank(Node<K, V> n, K key, int rk){
 		if(n == null) return rk;
 		else if(n.key.compareTo(key) < 0){
@@ -162,6 +165,7 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		}
 	}
 	
+	// FIXME incorrect due to tombstone delete
 	@Override
 	public int rank(K key) {
 		return rank(root, key, 0);
@@ -198,7 +202,8 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		
 		List<V> res = new ArrayList<V>();
 		for(Node<K,V> n : buf)
-			res.add(n.value);
+			if(n.value != null)
+				res.add(n.value);
 		return res;
 	}
 
@@ -210,7 +215,8 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		
 		List<K> res = new ArrayList<K>();
 		for(Node<K,V> n : buf)
-			res.add(n.key);
+			if(n.value != null)
+				res.add(n.key);
 		return res;
 	}
 	
