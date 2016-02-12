@@ -1,6 +1,6 @@
 package euler
 
-object E028 {
+object NumberSpiralDiagonals {
   // the series for sum of 4 corners at each level:
   // a1 = 1
   // a2 = 24
