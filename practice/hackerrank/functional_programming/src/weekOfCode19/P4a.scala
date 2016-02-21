@@ -7,8 +7,14 @@ object CoolguyAndTwoSubsequences2 {
 
     def f(a: Int, b: Int): Int = as.drop(a - 1).take(b - a + 1).min
 
+    val ans = for {
+      a <- (1 to n)
+      b <- (a to n)
+      c <- ((b + 1) to n)
+      d <- (c to n)
+    } yield math.min(f(a, b), f(c, d))
 
-    1
+    ans.sum % mod
   }
 
   def main(args: Array[String]): Unit = {
