@@ -1,14 +1,22 @@
 package euler
 
-object E034 {
+object DigitFactorials {
 
   lazy val fac: Stream[Int] = 1 #:: 1 #:: (Stream.from(2) zip fac.tail).map { case (a, b) => a * b }
-  val factorial = fac.take(10).toIndexedSeq.map(_.toLong)
+  val factorial = fac.take(10).toArray
 
-  lazy val curious: Stream[Int] = Stream.from(10).filter(x => x.toString.map(c => factorial(c - '0')).sum % x == 0)
+  implicit class IntExtension(x: Int) {
+    def isCurious(): Boolean = {
+      x.toString().map(c => factorial(c - '0')).sum % x == 0
+    }
+  }
 
-  def solve(n: Int): Int = {
-    curious.takeWhile(_ <= n).toList.sum
+  def solve(n: Int): Long = {
+    var sum: Long = 0
+    for (x <- (10 until n)) {
+      if(x.isCurious()) sum += x
+    }
+    sum
   }
 
   def main(args: Array[String]): Unit = {
