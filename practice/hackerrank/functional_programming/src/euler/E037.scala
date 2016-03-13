@@ -1,6 +1,6 @@
 package euler
 
-object CircularPrimes {
+object TruncatablePrimes {
 
   lazy val primes: Stream[Int] =
     2 #:: Stream.from(3, 2).filter(x => primes.takeWhile(_ <= math.sqrt(x)).forall(x % _ != 0))
@@ -9,9 +9,13 @@ object CircularPrimes {
 
   implicit class IntExtension(x: Int) {
 
-    def rotations(): Seq[Int] = {
+    def isTruncationPrime(): Boolean = {
       val s = x.toString
-      (0 until (s.length)).map(i => { val (a, b) = s.splitAt(i); (b + a).toInt })
+      for (i <- (1 until s.length)) {
+        if (!s.take(i).toInt.isPrime() || !s.drop(i).toInt.isPrime())
+          return false
+      }
+      true
     }
 
     def isPrime(): Boolean = {
@@ -25,8 +29,8 @@ object CircularPrimes {
 
   def solve(n: Int): Long = {
     var sum: Long = 0
-    for (k <- (2 until n)) {
-      if (k.rotations().forall(_.isPrime())) sum += k
+    for (k <- (11 until n)) {
+      if (k.isPrime() && k.isTruncationPrime()) sum += k
     }
     sum
   }
