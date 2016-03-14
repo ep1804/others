@@ -5,11 +5,15 @@ object IntegerRightTriangles {
   val r2 = math.sqrt(2) + 1
   
   def rightTriangle(p: Long): Int = {
-    (for{
+    val rt = for{
       a <- (1L to (p / r2).toInt)
       b <- (a + 1L to ((p - a) / 2))
-      if a * a + b * b == (p - a - b) * (p - a - b)
-    } yield 1).size
+      if a * a + b * b == (p - a - b) * (p - a - b)      
+    } yield (a, b, p - a - b)
+    
+    println(rt)
+    
+    rt.size
   }
 
   def main(args: Array[String]): Unit = {
