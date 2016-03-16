@@ -1,5 +1,7 @@
 package euler
 
+// Brute force
+
 object IntegerRightTriangles {
 
   val r2 = math.sqrt(2) + 1

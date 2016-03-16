@@ -2,6 +2,8 @@ package euler
 
 import scala.collection.Searching._
 
+// Employing: Tree of Pythogorean triples, Complex data structures
+
 object IntegerRightTriangles2 {
 
   //https://en.wikipedia.org/wiki/Tree_of_primitive_Pythagorean_triples
