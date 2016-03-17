@@ -1,15 +1,3 @@
-## Sort
- - MergeSort
- - QuickSort
-
-## Symbol Table
-
-#### Binary Search Tree
- - ISymbolTable -> BST, SweepLine, IntervalTree
-
-#### (Left Leaning) Red-Black Tree
- - ISymbolTable -> RBT
-
 ## Graph
 
 #### Graph Basic
@@ -34,6 +22,18 @@
  - IFlowEdge -> FlowEdge
  - IFlowNetwork -> FlowNetwork
  - MaxFlow -> FordFulkersonMF
+
+## Sort
+ - MergeSort
+ - QuickSort
+
+## Symbol Table
+
+#### Binary Search Tree
+ - ISymbolTable -> BST, SweepLine, IntervalTree
+
+#### (Left Leaning) Red-Black Tree
+ - ISymbolTable -> RBT
 
 ## String Sort
  - CountSort
