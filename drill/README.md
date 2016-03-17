@@ -1,14 +1,14 @@
 ## Sort
  - MergeSort
+ - QuickSort
 
 ## Symbol Table
 
 #### Binary Search Tree
- - ISymbolTable -> BST
+ - ISymbolTable -> BST, SweepLine, IntervalTree
 
 #### (Left Leaning) Red-Black Tree
  - ISymbolTable -> RBT
-
 
 ## Graph
 
@@ -44,3 +44,4 @@
 ## Trie
  - IStringST -> TrieST
  - IStringST -> TST
+ 
