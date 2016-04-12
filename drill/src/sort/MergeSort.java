@@ -1,21 +1,22 @@
 package sort;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+@SuppressWarnings("rawtypes")
 public class MergeSort {
 
 	public static void sort(Comparable[] a) {
 	}
 
 	public static void sort(Comparable[] a, Comparable[] buf, int lo, int hi) {
+		
 	}
 
 	private static void merge(Comparable[] from, Comparable[] to, int lo, int mid, int hi) {
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static void print(Comparable[] a) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < a.length; i++) {
@@ -24,7 +25,17 @@ public class MergeSort {
 		System.out.println(sb.toString());
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+		Scanner in = new Scanner(new File("input/sort/string1"));
+		String[] a = in.nextLine().trim().split("\\s+");
+		in.close();
+
+		print(a);
+
+		sort(a);
+
+		print(a);
+
 	}
 
 }
