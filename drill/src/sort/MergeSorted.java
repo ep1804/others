@@ -5,18 +5,20 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 @SuppressWarnings("rawtypes")
-public class MergeSort {
+public class MergeSorted<T extends Comparable<T>> {
 
-	private static Comparable[] buf;
+	public T[] merged;
 
-	public static void sort(Comparable[] a) {
-		buf = new Comparable[a.length];
+	@SuppressWarnings("unchecked")
+	public MergeSorted(T[] a) {
+		merged = (T[]) new Comparable[a.length];
 		for (int i = 0; i < a.length; i++)
-			buf[i] = a[i];
-		sort(a, buf, 0, a.length);
+			merged[i] = a[i];
+		
+		sort(merged, a, 0, a.length);
 	}
-
-	public static void sort(Comparable[] a, Comparable[] buf, int lo, int hi) {
+	
+	private void sort(T[] a, T[] buf, int lo, int hi) {
 		if (hi - lo < 2)
 			return;
 		int mid = (lo + hi) / 2;
@@ -25,7 +27,7 @@ public class MergeSort {
 		merge(buf, a, lo, mid, hi);
 	}
 
-	private static void merge(Comparable[] from, Comparable[] to, int lo, int mid, int hi) {
+	private void merge(T[] from, T[] to, int lo, int mid, int hi) {
 		int i = lo;
 		int j = mid;
 
@@ -40,7 +42,6 @@ public class MergeSort {
 				to[k] = from[j++];
 			}
 		}
-
 	}
 
 	public static void print(Comparable[] a) {
@@ -58,8 +59,8 @@ public class MergeSort {
 
 		print(a);
 
-		sort(a);
+		MergeSorted<String> ms = new MergeSorted<String>(a);
 
-		print(a);
+		print(ms.merged);
 	}
 }
