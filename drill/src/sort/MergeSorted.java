@@ -7,15 +7,15 @@ import java.util.Scanner;
 @SuppressWarnings("rawtypes")
 public class MergeSorted<T extends Comparable<T>> {
 
-	public T[] merged;
+	public T[] arr;
 
 	@SuppressWarnings("unchecked")
 	public MergeSorted(T[] a) {
-		merged = (T[]) new Comparable[a.length];
+		arr = (T[]) new Comparable[a.length];
 		for (int i = 0; i < a.length; i++)
-			merged[i] = a[i];
+			arr[i] = a[i];
 		
-		sort(merged, a, 0, a.length);
+		sort(arr, a, 0, a.length);
 	}
 	
 	private void sort(T[] a, T[] buf, int lo, int hi) {
@@ -61,6 +61,6 @@ public class MergeSorted<T extends Comparable<T>> {
 
 		MergeSorted<String> ms = new MergeSorted<String>(a);
 
-		print(ms.merged);
+		print(ms.arr);
 	}
 }
