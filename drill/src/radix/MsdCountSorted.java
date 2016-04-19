@@ -15,6 +15,8 @@ public class MsdCountSorted {
 
 	public MsdCountSorted(String[] a) {
 		arr = Arrays.copyOf(a, a.length);
+		
+		
 	}
 
 	public static void print(String[] a) {
