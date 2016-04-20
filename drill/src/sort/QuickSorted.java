@@ -23,23 +23,23 @@ public class QuickSorted<T extends Comparable<T>> {
 			return;
 
 		T pvt = arr[lo];
-		int lt = lo;
+		int le = lo;
 		int ge = hi;
 
 		for (int i = lo + 1; i < ge; i++) {
 			int cmp = arr[i].compareTo(pvt);
 			if (cmp < 0) {
-				lt++;
-				exch(i, lt);
+				le++;
+				exch(i, le);
 			} else if (cmp > 0) {
 				ge--;
 				exch(i, ge);
 				i--;
 			}
 		}
-		exch(lo, lt);
+		exch(lo, le);
 		
-		sort(lo, lt);
+		sort(lo, le);
 		sort(ge, hi);
 	}
 
