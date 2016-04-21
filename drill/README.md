@@ -24,8 +24,16 @@
  - MaxFlow -> FordFulkersonMF
 
 ## Sort
+
+#### Comparison
  - MergeSort
  - QuickSort
+ - Quick3String
+
+#### Counting
+ - CountSort
+ - LSD
+ - MSD
 
 ## Symbol Table
 
@@ -35,13 +43,9 @@
 #### (Left Leaning) Red-Black Tree
  - ISymbolTable -> RBT
 
-## String Sort
- - CountSort
- - LSD
- - MSD
- - Quick3String
-
-## Trie
+#### Trie
  - IStringST -> TrieST
  - IStringST -> TST
- 
+
+## Linear Programming
+ - Simplex
