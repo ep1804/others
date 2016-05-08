@@ -1,17 +1,16 @@
-Programming Practices, Environment Setup Logs, etc
-==================================================
+## Programming Practices, Environment Setup Logs, etc
 
-### Drill
+#### Drill
 
  - Basic Algorithms
  
  
-### Practices
+#### Practices
 
  - Programming practices
 
  
-### Spikes
+#### Spikes
 
  - swagger (Apache License) https://github.com/wordnik/swagger-ui
  - markdown-style (Licenses per CSS) https://github.com/mixu/markdown-styles
