@@ -6,27 +6,71 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
+public class RBT<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 
 	private class Node {
 		public final K key;
 		public V value;
-		public Node left;
-		public Node right;
+		public Node left, right;
+		public boolean isRed;
 		public int size;
 
 		public Node(K k, V v) {
 			key = k;
 			value = v;
-			left = null;
-			right = null;
+			isRed = true;
 			size = 1;
 		}
+	}
+	
+	private boolean isRed(Node n){
+		if(n == null) return false;
+		else if(n == root) return false;
+		else return n.isRed;
+	}
+	
+	private Node rotateLeft(Node h){
+		if(! isRed(h.right)) throw new IllegalArgumentException();
+		
+		Node x = h.right;
+		h.right = x.left;
+		x.left = h;
+		x.isRed = h.isRed;
+		h.isRed = true;
+		
+		x.size = h.size;
+		h.size = size(h.left) + size(h.right) + 1;
+		return x;
+	}
+	
+	private Node rotateRight(Node h){
+		if(! isRed(h.left)) throw new IllegalArgumentException();
+		
+		Node x = h.left;
+		h.left = x.right;
+		x.right = h;		
+		x.isRed = h.isRed;
+		h.isRed = true;
+		
+		x.size = h.size;
+		h.size = size(h.left) + size(h.right) + 1;
+		
+		return x;
+	}
+	
+	private void flipColors(Node h){
+		if(isRed(h)) throw new IllegalArgumentException();
+		if(! isRed(h.left)) throw new IllegalArgumentException();
+		if(! isRed(h.right)) throw new IllegalArgumentException();
+		
+		h.left.isRed = false;
+		h.right.isRed = false;
+		h.isRed = true;		
 	}
 
 	private Node root;
 
-	public BST() {
+	public RBT() {
 		root = null;
 	}
 
@@ -36,9 +80,8 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 	}
 
 	private Node put(Node n, K key, V value) {
-		if (n == null) {
+		if (n == null)
 			return new Node(key, value);
-		}
 
 		int cmp = key.compareTo(n.key);
 		if (cmp < 0)
@@ -49,22 +92,28 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 			n.value = value;
 
 		n.size = size(n.left) + size(n.right) + 1;
-
+		
+		// balance
+		if(isRed(n.right) && !isRed(n.left) ) n = rotateLeft(n);
+		if(isRed(n.left) && isRed(n.left.left)) n = rotateRight(n);
+		if(isRed(n.left) && isRed(n.right)) flipColors(n);
+		
 		return n;
 	}
 
 	@Override
 	public V get(K key) {
 		Node n = get(root, key);
-		if (n != null)
+
+		if (n == null)
+			return null;
+		else
 			return n.value;
-		return null;
 	}
 
 	private Node get(Node n, K key) {
 		if (n == null)
 			return null;
-
 		int cmp = key.compareTo(n.key);
 
 		if (cmp < 0)
@@ -87,7 +136,6 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 
 	@Override
 	public Iterable<K> keys() {
-
 		List<K> buf = new ArrayList<K>();
 		keysLoop(root, buf);
 		return buf;
@@ -101,14 +149,20 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		buf.add(n.key);
 		keysLoop(n.right, buf);
 	}
-	
+
+	@Override
+	public void delete(K key) {
+		// TODO Auto-generated method stub
+
+	}
+
 	@Override
 	public Iterable<V> values() {
 		List<V> buf = new ArrayList<V>();
 		valuesLoop(root, buf);
 		return buf;
 	}
-	
+
 	private void valuesLoop(Node n, List<V> buf) {
 		if (n == null)
 			return;
@@ -116,13 +170,6 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		valuesLoop(n.left, buf);
 		buf.add(n.value);
 		valuesLoop(n.right, buf);
-	}
-
-
-	@Override
-	public void delete(K key) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -300,27 +347,28 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 	public String toString() {
 		return toString(root);
 	}
-
-	private String toString(Node n) {
-		if (n == null)
-			return ".";
+	
+	private String toString(Node n){
+		if(n == null) return ".";
+		
 		return "(" + toString(n.left) + n.key + "-" + n.value + toString(n.right) + ")";
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-
-		BST<Integer, String> st = new BST<Integer, String>();
-
+		RBT<Integer, String> st = new RBT<Integer, String>();
+		
 		Scanner in = new Scanner(new File("input/symTab/sym1"));
-		while (in.hasNextLine()) {
+		while(in.hasNextLine()){
 			String[] ws = in.nextLine().trim().split("\\s+");
 			st.put(Integer.parseInt(ws[0]), ws[1]);
 		}
 		in.close();
-
+		
 		System.out.println(st);
-		System.out.println("keys: " + st.keys());
-		System.out.println("values: " + st.values());
+		
+		System.out.println("keys:" + st.keys());
+		System.out.println("values:" + st.values());
+		
 		System.out.println("size: " + st.size());
 		System.out.println("min: " + st.min());
 		System.out.println("min: " + st.max());
@@ -344,4 +392,5 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		}
 
 	}
+
 }
