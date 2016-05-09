@@ -38,7 +38,8 @@
 ## Symbol Table
 
 #### Binary Search Tree
- - ISymbolTable -> BST, SweepLine, IntervalTree
+ - ISymbolTable -> BST, SweepLine
+ - IIntervalTree -> IntervalTree
 
 #### (Left Leaning) Red-Black Tree
  - ISymbolTable -> RBT
