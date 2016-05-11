@@ -12,43 +12,12 @@ public class QuickSorted<T extends Comparable<T>> {
 	public T[] arr;
 
 	public QuickSorted(T[] a) {
-		arr = Arrays.copyOf(a, a.length);
-
-		sort(0, a.length);
+		// TODO
 	}
 
-	private void sort(int lo, int hi) {
+	// TODO private void sort
 
-		if (hi - lo < 2)
-			return;
-
-		T pvt = arr[lo];
-		int le = lo;
-		int ge = hi;
-
-		for (int i = lo + 1; i < ge; i++) {
-			int cmp = arr[i].compareTo(pvt);
-			if (cmp < 0) {
-				le++;
-				exch(i, le);
-			} else if (cmp > 0) {
-				ge--;
-				exch(i, ge);
-				i--;
-			}
-		}
-		exch(lo, le);
-		
-		sort(lo, le);
-		sort(ge, hi);
-	}
-
-	private void exch(int i, int j) {
-		if(i == j) return;
-		T tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
+	// TODO private void exch
 
 	public static void print(Object[] a) {
 		StringBuilder sb = new StringBuilder();

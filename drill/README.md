@@ -26,14 +26,14 @@
 ## Sort
 
 #### Comparison
- - MergeSort
- - QuickSort
- - Quick3String
+ - MergeSorted
+ - QuickSorted
+ - Quick3StringSorted
 
 #### Counting
- - CountSort
- - LSD
- - MSD
+ - CountSorted
+ - LSDCountSorted
+ - MSDCountSorted
 
 ## Symbol Table
 

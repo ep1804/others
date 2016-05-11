@@ -13,18 +13,7 @@ public class CountSorted {
 	public String[] arr;
 
 	public CountSorted(String[] a) {
-		arr = new String[a.length];
-
-		int[] count = new int[R + 1];
-
-		for (int i = 0; i < a.length; i++)
-			count[a[i].charAt(0) + 1]++;
-
-		for (int i = 0; i < R; i++)
-			count[i + 1] += count[i];
-		
-		for(int i=0; i<a.length; i++)
-			arr[count[a[i].charAt(0)]++] = a[i];
+		// TODO
 	}
 
 	public static <T> void print(T[] count) {

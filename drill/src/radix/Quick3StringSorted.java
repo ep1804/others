@@ -12,53 +12,15 @@ public class Quick3StringSorted {
 	public String[] arr;
 
 	public Quick3StringSorted(String[] a) {
-		arr = Arrays.copyOf(a, a.length);
-
-		sort(0, a.length, 0);
+		// TODO
 	}
 
-	private void sort(int lo, int hi, int d) {
-		if (lo >= hi)
-			return;
+	// TODO private void sort
 
-		int pvt = charAt(arr[lo], d);
+	// TODO private void exch
 
-		int le = lo;
-		int ge = hi;
-
-		for (int i = lo + 1; i < ge; i++) {
-			int cmp = charAt(arr[i], d) - pvt;
-
-			if (cmp < 0) {
-				exch(i, ++le);
-			} else if (cmp > 0) {
-				exch(i, --ge);
-				i--;
-			}
-		}
-		exch(lo, le);
-
-		sort(lo, le, d);
-		if (pvt > 0)
-			sort(le, ge, d + 1);
-		sort(ge, hi, d);
-	}
-
-	private void exch(int i, int j) {
-		if (i == j)
-			return;
-		String tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
-
-	private int charAt(String s, int at) {
-		if (at < s.length())
-			return s.charAt(at);
-		else
-			return -1;
-	}
-
+	// TODO private int charAt
+	
 	public static void print(String[] a) {
 		for (int i = 0; i < a.length; i++)
 			System.out.print(a[i] + " ");

@@ -14,23 +14,7 @@ public class LsdCountSorted {
 	public String[] arr;
 
 	public LsdCountSorted(String[] a) {
-		arr = Arrays.copyOf(a, a.length);
-		String[] buf = new String[arr.length];
-
-		int len = a[0].length();
-		int[] count = new int[R + 1];
-
-		for (int d = len - 1; d >= 0; d--) {
-			Arrays.fill(count, 0);
-			for (int i = 0; i < arr.length; i++)
-				count[arr[i].charAt(d) + 1]++;
-			for (int i = 0; i < R; i++)
-				count[i + 1] += count[i];
-			for (int i = 0; i < arr.length; i++)
-				buf[count[arr[i].charAt(d)]++] = arr[i];
-			for (int i = 0; i < arr.length; i++)
-				arr[i] = buf[i];
-		}
+		// TODO
 	}
 
 	public static void print(String[] a) {

@@ -11,38 +11,12 @@ public class MergeSorted<T extends Comparable<T>> {
 
 	@SuppressWarnings("unchecked")
 	public MergeSorted(T[] a) {
-		arr = (T[]) new Comparable[a.length];
-		for (int i = 0; i < a.length; i++)
-			arr[i] = a[i];
-		
-		sort(arr, a, 0, a.length);
+		// TODO
 	}
 	
-	private void sort(T[] a, T[] buf, int lo, int hi) {
-		if (hi - lo < 2)
-			return;
-		int mid = (lo + hi) / 2;
-		sort(buf, a, lo, mid);
-		sort(buf, a, mid, hi);
-		merge(buf, a, lo, mid, hi);
-	}
+	// TODO private void sort
 
-	private void merge(T[] from, T[] to, int lo, int mid, int hi) {
-		int i = lo;
-		int j = mid;
-
-		for (int k = lo; k < hi; k++) {
-			if (i == mid) {
-				to[k] = from[j++];
-			} else if (j == hi) {
-				to[k] = from[i++];
-			} else if (from[i].compareTo(from[j]) < 0) {
-				to[k] = from[i++];
-			} else {
-				to[k] = from[j++];
-			}
-		}
-	}
+	// TODO private void merge
 
 	public static void print(Comparable[] a) {
 		StringBuilder sb = new StringBuilder();

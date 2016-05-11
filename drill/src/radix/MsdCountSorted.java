@@ -15,37 +15,12 @@ public class MsdCountSorted {
 	private String[] buf;
 
 	public MsdCountSorted(String[] a) {
-		arr = Arrays.copyOf(a, a.length);
-		buf = new String[arr.length];
-
-		sort(0, a.length, 0);
+		// TODO
 	}
 
-	private void sort(int lo, int hi, int d) {
-		if(lo >= hi) return;
-		
-		int[] count = new int[R + 2];
+	// TODO private void sort
 
-		for (int i = lo; i < hi; i++)
-			count[charAt(arr[i], d) + 2]++;
-		for (int i = 0; i < R + 1; i++)
-			count[i + 1] += count[i];
-		for (int i = lo; i < hi; i++)
-			buf[lo + count[charAt(arr[i], d) + 1]++] = arr[i];
-		for (int i = lo; i < hi; i++)
-			arr[i] = buf[i];
-
-		for (int i = 0; i < R; i++) {
-			sort(lo + count[i], lo + count[i+1], d + 1);
-		}
-	}
-
-	private int charAt(String s, int at) {
-		if (at < s.length())
-			return s.charAt(at);
-		else
-			return -1;
-	}
+	// TODO private int charAt
 
 	public static void print(String[] a) {
 		for (int i = 0; i < a.length; i++)
