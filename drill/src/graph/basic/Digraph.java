@@ -2,22 +2,23 @@ package graph.basic;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
-public class Graph implements IGraph {
+public class Digraph implements IGraph {
 
 	private final int V;
-	private int E;
-	private Set<Integer>[] adj;
+	private List<Integer>[] adj;
+	private int size;
 
 	@SuppressWarnings("unchecked")
-	public Graph(int vertices) {
-		this.V = vertices;
-		adj = (Set<Integer>[]) new HashSet[vertices];
+	public Digraph(int V) {
+		this.V = V;
+		adj = (List<Integer>[]) new ArrayList[V];
 		for (int v = 0; v < V; v++)
-			adj[v] = new HashSet<Integer>();
+			adj[v] = new ArrayList<Integer>();
+		size = 0;
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class Graph implements IGraph {
 
 	@Override
 	public int E() {
-		return E;
+		return size;
 	}
 
 	@Override
@@ -38,8 +39,7 @@ public class Graph implements IGraph {
 	@Override
 	public void addEdge(int v, int w) {
 		adj[v].add(w);
-		adj[w].add(v);
-		E++;
+		size++;
 	}
 
 	@Override
@@ -52,15 +52,24 @@ public class Graph implements IGraph {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-
-		Scanner in = new Scanner(new File("input/graph/ungraph1"));
-		int n = in.nextInt();
-		Graph g = new Graph(n)				;
-		while(in.hasNextInt())
+		Scanner in = new Scanner(new File("input/graph/digraph1"));
+		int V = in.nextInt();
+		Digraph g = new Digraph(V);
+		while (in.hasNextInt())
 			g.addEdge(in.nextInt(), in.nextInt());
 		in.close();
 
 		System.out.println(g);
+
+		BfsTree bt = new BfsTree(g, 0);
+
+		System.out.println(bt.pathTo(4));
+		System.out.println(bt.pathTo(3));
+
+		DfsTree dt = new DfsTree(g, 0);
+		System.out.println(dt.pathTo(4));
+		System.out.println(dt.pathTo(3));
+
 	}
 
 }
