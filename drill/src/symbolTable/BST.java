@@ -160,14 +160,53 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 
 	@Override
 	public K ceiling(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		Node n = ceiling(root, key);
+
+		if (n == null)
+			return null;
+		else
+			return n.key;
+	}
+
+	private Node ceiling(Node n, K key) {
+		if (n == null)
+			return null;
+
+		int cmp = key.compareTo(n.key);
+		if (cmp < 0) {
+			Node cl = ceiling(n.left, key);
+			if (cl == null)
+				return n;
+			else
+				return cl;
+		} else if (cmp > 0) {
+			return ceiling(n.right, key);
+		} else {
+			return n;
+		}
 	}
 
 	@Override
 	public K floor(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		Node n = floor(root, key);
+		
+		if(n == null) return null;
+		else return n.key;
+	}
+
+	private Node floor(Node n, K key) {
+		if(n == null) return null;
+		
+		int cmp = key.compareTo(n.key);
+		if (cmp < 0) {
+			return floor(n.left, key);
+		} else if (cmp > 0) {
+			Node fl = floor(n.right, key);
+			if(fl == null) return n;
+			else return fl;
+		} else {
+			return n;
+		}
 	}
 
 	@Override
@@ -184,20 +223,64 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 
 	@Override
 	public int rank(K key) {
-		// TODO Auto-generated method stub
-		return 0;
+		return rank(root, key);
+	}
+
+	private int rank(Node n, K key) {
+		if (n == null)
+			return 1;
+
+		int cmp = key.compareTo(n.key);
+
+		if (cmp < 0) {
+			return rank(n.left, key);
+		} else if (cmp > 0) {
+			return size(n.left) + 1 + rank(n.right, key);
+		} else
+			return size(n.left) + 1;
 	}
 
 	@Override
 	public Iterable<V> harvestValues(K lo, K hi) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Node> ns = new ArrayList<Node>();
+		harvest(root, ns, lo, hi);
+		List<V> vs = new ArrayList<V>();
+		for(Node n : ns)
+			vs.add(n.value);
+		return vs;
 	}
 
 	@Override
 	public Iterable<K> harvestKeys(K lo, K hi) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Node> ns = new ArrayList<Node>();
+		harvest(root, ns, lo, hi);
+		List<K> ks = new ArrayList<K>();
+		for(Node n : ns)
+			ks.add(n.key);
+		return ks;
+	}
+	
+	private void harvest(Node n, List<Node> buf, K lo, K hi){
+		if(n == null) return;
+		
+		int cmp1 = n.key.compareTo(lo);
+		int cmp2 = n.key.compareTo(hi);
+		
+		if(cmp1 < 0){
+			harvest(n.right, buf, lo, hi);
+		}else if(cmp1 == 0){
+			buf.add(n);
+			harvest(n.right, buf, lo, hi);
+		}else if(cmp1 > 0 && cmp2 < 0){
+			buf.add(n);
+			harvest(n.right, buf, lo, hi);
+			harvest(n.left, buf, lo, hi);
+		}else if(cmp2 == 0){
+			buf.add(n);
+			harvest(n.left, buf, lo, hi);
+		}else{ // cmp2 > 0
+			harvest(n.left, buf, lo, hi);
+		}
 	}
 
 	@Override
@@ -222,13 +305,19 @@ public class BST<K extends Comparable<K>, V> implements ISymbolTable<K, V> {
 		System.out.println(tree);
 		System.out.println("size: " + tree.size());
 		for (int i = 0; i < 17; i++) {
-			System.out.println(i + " get:" + tree.get(i) + ", rank:" + tree.rank(i));
+			System.out.println(i + " get:" + tree.get(i)
+			+ ", rank:" + tree.rank(i) + ", floor:" + tree.floor(i)
+			+ ", ceil:" + tree.ceiling(i));
 		}
 
 		System.out.println("keys: " + tree.keys());
 		System.out.println("values: " + tree.values());
 		System.out.println("min: " + tree.min());
 		System.out.println("max: " + tree.max());
+		
+		for (int i = 0; i < 12; i++) {
+			System.out.println("harvest " + i + "~" + (i + 5) + ": " + tree.harvestKeys(i, i+5));
+		}
 
 	}
 }
