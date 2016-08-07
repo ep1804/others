@@ -5,7 +5,7 @@ object NonAbundantSums {
   lazy val primes: Stream[Int] =
     2 #:: Stream.from(3, 2).filter(x => primes.takeWhile(_ <= math.sqrt(x)).forall(x % _ != 0))
 
-  // return Seq(prime factors, power)
+  // return Seq[(prime factors, power)]
   def factor(n: Int): Seq[(Int, Int)] = {
 
     def divRep(a: Int, b: Int): (Int, Int) = {
