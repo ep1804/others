@@ -75,6 +75,8 @@ d0$Survived <- factor(d0$Survived)
 
 # Training and testing data ------------------------------------------------------------
 
+# TODO caret
+
 tr <- head(d0, nrow(train))
 tr <- tr[complete.cases(tr),] # no imputation in training
 
