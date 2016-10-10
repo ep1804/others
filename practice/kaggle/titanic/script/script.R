@@ -76,7 +76,10 @@ d0$Survived <- factor(d0$Survived)
 # Training and testing data ------------------------------------------------------------
 
 tr <- head(d0, nrow(train))
-tr <- tr[complete.cases(tr),] # no imputation in training
+
+# imputation usint mice package
+mice_fit <- mice(tr, method = 'rf')
+tr <- complete(mice_fit)
 
 cv <- tail(d0, nrow(test))
 cv$Survived <- NULL
