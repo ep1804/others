@@ -1,9 +1,6 @@
 # Classification model for survival using titanic data
-# Random forest model is used
 # Reference: Megan Risdal and Ben Hamner
 
-library(mice)
-library(randomForest)
 library(ggplot2)
 library(ggthemes)
 
@@ -73,31 +70,27 @@ d0$Embarked <- factor(d0$Embarked)
 # Survived is factor
 d0$Survived <- factor(d0$Survived)
 
-# Training and testing data ------------------------------------------------------------
 
-# TODO caret
+# Split train and test data ------------------------------------------------------------
 
 tr <- head(d0, nrow(train))
-
-# imputation usint mice package
-mice_fit <- mice(tr, method = 'rf')
-tr <- complete(mice_fit)
-
 cv <- tail(d0, nrow(test))
 cv$Survived <- NULL
 
-apply(cv, 2, function(x){sum(is.na(x))})
-
 # imputation usint mice package
+library(mice)
+mice_fit <- mice(tr, method = 'rf')
+tr <- complete(mice_fit)
 mice_fit <- mice(cv, method = 'rf')
 cv <- complete(mice_fit)
 
-# Plain statistics ---------------------------------------------------------------------
+apply(tr, 2, function(x){sum(is.na(x))})
+apply(cv, 2, function(x){sum(is.na(x))})
 
-# TODO
 
-# modeling -----------------------------------------------------------------------------
+# preliminary modeling -----------------------------------------------------------------
 
+library(randomForest)
 fit <- randomForest(Survived ~ ., data = tr)
 plot(fit)
 legend('topright', colnames(fit$err.rate), col=1:3, fill=1:3)
@@ -115,6 +108,19 @@ p <- ggplot(imp, aes(x = reorder(rownames(imp), MeanDecreaseGini) , y=MeanDecrea
 ggsave("feature_importance.png", p)
 
 
+# modeling with CV-based tuning for regularization param -------------------------------
+
+library(caret)
+library(ranger)
+
+fit <- train(
+  Survived ~ ., data = tr, method = 'ranger',
+  trControl = trainControl( method = 'cv', number = 5, verboseIter = TRUE )
+)
+
+#print(fit)
+plot(fit, main = 'Random Forest Parameter Tuning by CV')
+
 # output csv ---------------------------------------------------------------------------
 
 pred <- data.frame(
@@ -122,4 +128,4 @@ pred <- data.frame(
   Survived = predict(fit, cv)
 )
 
-write.csv(pred, file = "pred.csv", row.names=FALSE)
+write.csv(pred, file = "pred.csv", quote = F, row.names=F)
