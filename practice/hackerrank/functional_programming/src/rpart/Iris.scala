@@ -9,7 +9,7 @@ object Iris {
 
   class Node
 
-  def rpart(data: Data, rules: List[Rule]): Node = {
+  def rpart(data: Data, rules: List[Rule], cp: Double): Node = {
     new Node()
   }
 
@@ -51,5 +51,9 @@ object Iris {
     println(rules(19)(Array(0, 2.1, 0, 0)))
     println(rules(19)(Array(0, 1.9, 0, 0)))
 
+    
+    // Test rpart
+    
+    print(rpart(data, rules.toList, 0.2))
   }
 }
