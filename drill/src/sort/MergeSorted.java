@@ -2,21 +2,56 @@ package sort;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 @SuppressWarnings("rawtypes")
 public class MergeSorted<T extends Comparable<T>> {
 
-	public T[] arr;
+	public T[] sorted;
 
-	@SuppressWarnings("unchecked")
 	public MergeSorted(T[] a) {
-		// TODO
-	}
-	
-	// TODO private void sort
+		T[] buf1 = Arrays.copyOf(a, a.length);
+		T[] buf2 = Arrays.copyOf(a, a.length);
 
-	// TODO private void merge
+		sort(buf1, buf2, 0, a.length);
+		sorted = buf2;
+	}
+
+	private void sort(T[] a, T[] b, int ge, int lt) {
+
+		if (lt - ge <= 1)
+			return;
+
+		int mid = (ge + lt) / 2;
+
+		sort(b, a, ge, mid);
+		sort(b, a, mid, lt);
+		merge(a, b, ge, lt, mid);
+		
+//		System.out.println(" " + ge + " " + mid + " " + lt);
+//		print(a);
+	}
+
+	private void merge(T[] a, T[] b, int ge, int lt, int mid) {
+		int i = ge;
+		int j = mid;
+
+		for (int k = ge; k < lt; k++) {
+			if (i >= mid) {
+				b[k] = a[j++];
+			} else if (j >= lt) {
+				b[k] = a[i++];
+			} else {
+				if (a[i].compareTo(a[j]) <= 0) {
+					b[k] = a[i++];
+				} else {
+					b[k] = a[j++];
+				}
+			}
+		}
+
+	}
 
 	public static void print(Comparable[] a) {
 		StringBuilder sb = new StringBuilder();
@@ -35,6 +70,6 @@ public class MergeSorted<T extends Comparable<T>> {
 
 		MergeSorted<String> ms = new MergeSorted<String>(a);
 
-		print(ms.arr);
+		print(ms.sorted);
 	}
 }
