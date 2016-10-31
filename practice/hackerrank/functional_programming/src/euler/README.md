@@ -22,7 +22,7 @@
 # Generating Streams
  
 ```scala
-  lazy val exponentials: Stream[Long] = Stream.from(1).map(x => (x * x).toLong)
+  lazy val twoPowers : Stream[Int] = 1 #:: twoPowers.map(_ * 2)
 ```
 
 ```scala
