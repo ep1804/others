@@ -29,3 +29,7 @@ vignettes/*.pdf
 
 # vi
 *.swp
+
+# Idea
+*.iml
+.idea
