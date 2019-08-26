@@ -34,6 +34,7 @@ trait GraphTrait {
   def addEdge(v: Int, w: Int): Unit = {
     adjs(v) += w
     adjs(w) += v
+    edges += 1
   }
 
   override def toString: String = {
