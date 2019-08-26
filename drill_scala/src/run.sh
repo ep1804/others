@@ -2,4 +2,4 @@
 
 rm -f run.jar
 scalac $1/*.scala -d run.jar
-scala -cp run.jar $2
+scala -cp run.jar $1.$2

@@ -1,3 +1,5 @@
+package graph
+
 import scala.collection.mutable.ArrayBuffer
 
 trait GraphTrait {
