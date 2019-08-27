@@ -9,60 +9,75 @@ object UndirectedGraph {
 
   class Graph(numVertex: Int) extends GraphTrait {
     adjs = Array.fill(numVertex)(ArrayBuffer[Int]())
+  }
 
-    private val notVisited = Array.fill(numVertex)(true)
-    private val parent = Array.fill(numVertex)(-1)
+  def dfs(g: Graph, from: Int): Seq[Int] = {
 
-    def dfs(s: Int): Unit = {
+    val notVisited = Array.fill(g.V)(true)
 
-      util.Arrays.fill(notVisited, true)
-      util.Arrays.fill(parent, -1)
+    util.Arrays.fill(notVisited, true)
 
-      val visitOrder = ArrayBuffer[Int]()
+    val visitOrder = ArrayBuffer[Int]()
 
-      def go(v: Int): Unit = {
-        notVisited(v) = false
-        visitOrder += v
-        for (w <- adjs(v)) {
-          if (notVisited(w)) {
-            parent(w) = v
-            go(w)
-          }
+    def go(v: Int): Unit = {
+      notVisited(v) = false
+      visitOrder += v
+      for (w <- g.adj(v)) {
+        if (notVisited(w)) {
+          go(w)
         }
       }
-
-      go(s)
-
-      println(s"DFS from $s: ${visitOrder.mkString(" ")}")
     }
 
-    def bfs(s: Int): Unit = {
+    go(from)
 
-      util.Arrays.fill(notVisited, true)
-      util.Arrays.fill(parent, -1)
+    visitOrder
+  }
 
-      val visitOrder = ArrayBuffer[Int]()
-      val toVisit = mutable.Queue[Int]()
+  def bfs(g: Graph, from: Int): Seq[Int] = {
 
-      toVisit.enqueue(s)
-      notVisited(s) = false
+    val notVisited = Array.fill(g.V)(true)
 
-      while (toVisit.nonEmpty) {
-        val v = toVisit.dequeue()
-        visitOrder += v
+    val visitOrder = ArrayBuffer[Int]()
+    val nexts = mutable.Queue[Int]()
 
-        for (w <- adjs(v)) {
-          if (notVisited(w)) {
-            parent(w) = v
-            toVisit.enqueue(w)
-            notVisited(w) = false
-          }
+    nexts.enqueue(from)
+    notVisited(from) = false
+
+    while (nexts.nonEmpty) {
+      val v = nexts.dequeue()
+      visitOrder += v
+
+      for (w <- g.adj(v)) {
+        if (notVisited(w)) {
+          nexts.enqueue(w)
+          notVisited(w) = false
         }
       }
-
-      println(s"BFS from $s: ${visitOrder.mkString(" ")}")
     }
 
+    visitOrder
+  }
+
+  def connectedComponents(g: Graph): Array[Int] = {
+    val groupIds = Array.fill(g.V)(0)
+    var gId = 1
+
+    def markGroupId(v: Int): Unit = {
+      groupIds(v) = gId
+      for (w <- g.adj(v)) {
+        if (groupIds(w) == 0) markGroupId(w)
+      }
+    }
+
+    for (v <- 0 until g.V) {
+      if (groupIds(v) == 0) {
+        markGroupId(v)
+        gId += 1
+      }
+    }
+
+    groupIds
   }
 
   def main(args: Array[String]): Unit = {
@@ -80,9 +95,15 @@ object UndirectedGraph {
 
     println(g)
 
-    g.dfs(0)
+    val ord1 = dfs(g, 0)
+    println(s"DFS from 0: ${ord1.mkString(" ")}")
 
-    g.bfs(0)
+    val ord2 = bfs(g, 0)
+    println(s"BFS from 0: ${ord2.mkString(" ")}")
+
+    val conc = connectedComponents(g)
+    println(s"CC: ${conc.mkString(" ")}")
+
   }
 
 }

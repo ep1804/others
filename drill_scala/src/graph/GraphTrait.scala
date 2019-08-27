@@ -23,7 +23,7 @@ trait GraphTrait {
     * @param v vertex ID
     * @return adjacency list
     */
-  def adj(v: Int): Iterable[Integer] = adj(v)
+  def adj(v: Int): Iterable[Int] = adjs(v)
 
   /**
     * add new edge
@@ -42,7 +42,7 @@ trait GraphTrait {
     sb.append("vertices: " + V).append("\n")
     sb.append("edges: " + E).append("\n")
     sb.append("adjacency list:\n")
-    adjs.zipWithIndex.foreach{ case (l, i) => sb.append(s"$i -> ${l.mkString(", ")}\n") }
+    adjs.zipWithIndex.foreach { case (l, i) => sb.append(s"$i -> ${l.mkString(", ")}\n") }
     sb.toString
   }
 }
