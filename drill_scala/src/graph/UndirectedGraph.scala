@@ -1,7 +1,5 @@
 package graph
 
-import java.util
-
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
@@ -9,75 +7,78 @@ object UndirectedGraph {
 
   class Graph(numVertex: Int) extends GraphTrait {
     adjs = Array.fill(numVertex)(ArrayBuffer[Int]())
+
+    override def addEdge(v: Int, w: Int): Unit = {
+      adjs(v) += w
+      adjs(w) += v
+      edges += 1
+    }
   }
 
-  def dfs(g: Graph, from: Int): Seq[Int] = {
+  def dfsReach(g: Graph, from: Int): Seq[Int] = {
+    val reach = ArrayBuffer[Int]()
 
-    val notVisited = Array.fill(g.V)(true)
+    val visited = Array.fill(g.V)(false)
 
-    util.Arrays.fill(notVisited, true)
-
-    val visitOrder = ArrayBuffer[Int]()
-
-    def go(v: Int): Unit = {
-      notVisited(v) = false
-      visitOrder += v
+    def dfs(v: Int): Unit = {
+      visited(v) = true
+      reach += v
       for (w <- g.adj(v)) {
-        if (notVisited(w)) {
-          go(w)
+        if (!visited(w)) {
+          dfs(w)
         }
       }
     }
 
-    go(from)
+    dfs(from)
 
-    visitOrder
+    reach
   }
 
-  def bfs(g: Graph, from: Int): Seq[Int] = {
+  def bfsReach(g: Graph, from: Int): Seq[Int] = {
 
-    val notVisited = Array.fill(g.V)(true)
+    val reach = ArrayBuffer[Int]()
 
-    val visitOrder = ArrayBuffer[Int]()
-    val nexts = mutable.Queue[Int]()
+    val queue = mutable.Queue[Int]()
+    val queued = Array.fill(g.V)(false)
 
-    nexts.enqueue(from)
-    notVisited(from) = false
+    queue.enqueue(from)
+    queued(from) = true
 
-    while (nexts.nonEmpty) {
-      val v = nexts.dequeue()
-      visitOrder += v
+    while (queue.nonEmpty) {
+      val v = queue.dequeue()
+      reach += v
 
       for (w <- g.adj(v)) {
-        if (notVisited(w)) {
-          nexts.enqueue(w)
-          notVisited(w) = false
+        if (!queued(w)) {
+          queue.enqueue(w)
+          queued(w) = true
         }
       }
     }
 
-    visitOrder
+    reach
   }
 
   def connectedComponents(g: Graph): Array[Int] = {
-    val groupIds = Array.fill(g.V)(0)
+    val grouped = Array.fill(g.V)(0)
     var gId = 1
 
-    def markGroupId(v: Int): Unit = {
-      groupIds(v) = gId
+    def dfs(v: Int): Unit = {
+      grouped(v) = gId
       for (w <- g.adj(v)) {
-        if (groupIds(w) == 0) markGroupId(w)
+        if (grouped(w) == 0) dfs(w)
       }
     }
 
     for (v <- 0 until g.V) {
-      if (groupIds(v) == 0) {
-        markGroupId(v)
+      if (grouped(v) == 0) {
+        dfs(v)
         gId += 1
       }
     }
 
-    groupIds
+    grouped
   }
 
   def main(args: Array[String]): Unit = {
@@ -87,23 +88,24 @@ object UndirectedGraph {
 
     val g = new Graph(nv)
 
-    for (_ <- 0 until nv) {
-      val line = lines.next()
-      val Array(v, w) = line.trim.split("\\s+").map(_.toInt)
-      g.addEdge(v, w)
+    while (lines.hasNext) {
+      val line = lines.next.trim
+      if (line.nonEmpty) {
+        val Array(v, w) = line.trim.split("\\s+").map(_.toInt)
+        g.addEdge(v, w)
+      }
     }
 
     println(g)
 
-    val ord1 = dfs(g, 0)
-    println(s"DFS from 0: ${ord1.mkString(" ")}")
+    val dfsSeq = dfsReach(g, 0)
+    println(s"DFS from 0: ${dfsSeq.mkString(" ")}")
 
-    val ord2 = bfs(g, 0)
-    println(s"BFS from 0: ${ord2.mkString(" ")}")
+    val bfsSeq = bfsReach(g, 0)
+    println(s"BFS from 0: ${bfsSeq.mkString(" ")}")
 
-    val conc = connectedComponents(g)
-    println(s"CC: ${conc.mkString(" ")}")
-
+    val cc = connectedComponents(g)
+    println(s"CC: ${cc.mkString(" ")}")
   }
 
 }

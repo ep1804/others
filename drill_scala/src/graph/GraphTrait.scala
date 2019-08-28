@@ -31,11 +31,7 @@ trait GraphTrait {
     * @param v from vertex
     * @param w to vertex
     */
-  def addEdge(v: Int, w: Int): Unit = {
-    adjs(v) += w
-    adjs(w) += v
-    edges += 1
-  }
+  def addEdge(v: Int, w: Int): Unit
 
   override def toString: String = {
     val sb = new StringBuilder
