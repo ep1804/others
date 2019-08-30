@@ -1,5 +1,7 @@
 package sort
 
+import scala.util.Random
+
 object Sorts {
 
   private val MERGESORT_SPLIT_THRESHOLD = 5
@@ -79,6 +81,58 @@ object Sorts {
     buf.copyToArray(xs)
   }
 
+  private def shuffle(xs: Array[String]): Unit = {
+
+    val rand = new Random
+
+    for (i <- 1 until xs.length) {
+      val j = rand.nextInt(i)
+      swap(i, j, xs)
+    }
+  }
+
+  def quickSort(xs: Array[String]): Unit = {
+
+    shuffle(xs)
+
+    println("shuffled: " + xs.mkString(" "))
+
+    def part(from: Int, until: Int): Int = {
+      val pivot = xs(from)
+      var i1 = from
+      var i2 = until - 1
+
+      while (i1 <= i2) {
+        if (xs(i1) <= pivot) {
+          i1 += 1
+        } else if (xs(i2) > pivot) {
+          i2 -= 1
+        } else if (xs(i1) > pivot) {
+          swap(i1, i2, xs)
+          i2 -= 1
+        } else {
+          swap(i1, i2, xs)
+          i1 += 1
+        }
+      }
+      swap(from, i2, xs)
+      i2
+    }
+
+    def sort(from: Int, until: Int): Unit = {
+
+      if (from >= until) return
+
+      val cut = part(from, until)
+
+      println(s"part at $cut: " + xs.mkString(" "))
+      sort(from, cut)
+      sort(cut + 1, until)
+    }
+
+    sort(0, xs.length)
+  }
+
   def main(args: Array[String]): Unit = {
     val items = io.Source.stdin.getLines.next.trim.split("\\s+")
 
@@ -94,6 +148,11 @@ object Sorts {
 
     mergeSort(buf)
     println("merge sorted: " + buf.mkString(" "))
+
+    items.copyToArray(buf)
+
+    quickSort(buf)
+    println("quick sorted: " + buf.mkString(" "))
   }
 
 }
