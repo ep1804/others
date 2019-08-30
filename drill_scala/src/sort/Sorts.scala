@@ -97,37 +97,38 @@ object Sorts {
 
     println("shuffled: " + xs.mkString(" "))
 
-    def part(from: Int, until: Int): Int = {
+    // less-than / equal-to / greater-than
+    def threeWayPart(from: Int, until: Int): (Int, Int) = {
       val pivot = xs(from)
-      var i1 = from
-      var i2 = until - 1
+      var lt = from + 1
+      var eq = from + 1
+      var gt = until - 1
 
-      while (i1 <= i2) {
-        if (xs(i1) <= pivot) {
-          i1 += 1
-        } else if (xs(i2) > pivot) {
-          i2 -= 1
-        } else if (xs(i1) > pivot) {
-          swap(i1, i2, xs)
-          i2 -= 1
-        } else {
-          swap(i1, i2, xs)
-          i1 += 1
+      while (eq <= gt) {
+        if (xs(eq) == pivot) {
+          eq += 1
+        } else if (xs(eq) < pivot) {
+          swap(lt, eq, xs)
+          lt += 1
+          eq += 1
+        } else if (xs(eq) > pivot) {
+          swap(eq, gt, xs)
+          gt -= 1
         }
       }
-      swap(from, i2, xs)
-      i2
+      swap(from, lt - 1, xs)
+      (lt - 1, eq)
     }
 
     def sort(from: Int, until: Int): Unit = {
 
       if (from >= until) return
 
-      val cut = part(from, until)
+      val (ltCut, eqCut) = threeWayPart(from, until)
 
-      println(s"part at $cut: " + xs.mkString(" "))
-      sort(from, cut)
-      sort(cut + 1, until)
+      println(s"part at $ltCut, $eqCut: " + xs.mkString(" "))
+      sort(from, ltCut)
+      sort(eqCut, until)
     }
 
     sort(0, xs.length)
