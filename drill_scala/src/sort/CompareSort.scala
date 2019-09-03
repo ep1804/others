@@ -2,7 +2,7 @@ package sort
 
 import scala.util.Random
 
-object Sorts {
+object CompareSort {
 
   private val MERGESORT_SPLIT_THRESHOLD = 5
 
