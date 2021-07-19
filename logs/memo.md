@@ -112,7 +112,3 @@ function override_git_prompt_colors() {
 
 reload_git_prompt_colors 'Solarized UserHost'
 ```
-
-# bash-git-prompt
-
-#### as non-superuser
