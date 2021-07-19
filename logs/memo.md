@@ -1,124 +1,118 @@
-# Memo
 
-Some basic settings
+server setup
 
-## Ubuntu
+# java, scala, sbt, maven
 
-Download Ubuntu image for Vmware
-
-* e.g. http://www.traffictool.net/vmware/ubuntu1404t.html
-
-Update it using 'Software Updater'
-
-Resolve desktop duplication problem of Ubuntu on Vmware
-
-* A work-around is roll back to previous kernel.
-	1. [Boot with an older kernel.](http://askubuntu.com/questions/82140/how-can-i-boot-with-an-older-kernel-version)
-	2. [Remove new kernel versions after downgrading.](http://askubuntu.com/questions/106031/how-can-i-remove-new-kernel-versions-after-downgrading)
-
-Turn off Large Text
-
-* Settings -> Universal Access
-
-Locale & Time Zone
-
-* Settings -> Language Support 
-* Settings -> Text Entry 
-* Settings -> Time & Date
-
-
-## VI
-
-Install vi fully
+#### as non-superuser `~/opt`
 
 ```
-sudo apt-get install vim
+# https://adoptopenjdk.net/
+tar zxvf jdkxxx.tar.gz
+
+wget https://downloads.lightbend.com/scala/2.11.12/scala-2.11.12.tgz
+tar -zxvf scala-2.11.12.tgz
+
+wget https://piccolo.link/sbt-1.2.8.tgz
+tar zxvf sbt-1.2.8.tgz
+
+wget http://apache.mirror.cdnetworks.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+tar -zxvf apache-maven-3.6.3-bin.tar.gz
 ```
 
-Install Vundle
-
-* https://github.com/gmarik/Vundle.vim#quick-start
-
-Edit `.vimrc` like, for example, 
+#### as non-superuser `~/.bashrc`
 
 ```
-set fileencodings=utf-8
-set hlsearch
-set tabstop=2
-set shiftwidth=2
-...
+SETUP_DIR=/.../soonmok/setup
+chmod 600 $SETUP_DIR/id_rsa_soonmok
+export GIT_SSH_COMMAND="ssh -i $SETUP_DIR/id_rsa_soonmok -F /dev/null"
 
+git config --global user.email "soonmok.kwon@...com"
+git config --global user.name "Soonmok Kwon"
+
+conda activate py2
+
+export PS1='\[\e[36m\]\u\[\e[0m\]@\[\e[36m\]\H \[\e[36m\]\W \[\e[33m\]$\[\e[0m\] '
+
+export LANG=en_US.UTF-8
+export JAVA_HOME=/.../opt/jdk1.8.0_112
+export SCALA_HOME=/.../opt/scala-2.11.12
+
+export PATH=$JAVA_HOME/bin:$PATH
+export PATH=$SCALA_HOME/bin:$PATH
+export PATH=/.../opt/sbt/bin:$PATH
+export PATH=/.../opt/apache-maven-3.6.3/bin:$PATH
+
+java -version
+scala -version
+python -V
+pip -V
 ```
 
-
-## Git
-
-Install git
-
-```
-sudo apt-get install vim
-```
-
-Set some global variables
+# node, http-server, raml2html
+ 
+#### as superuser
 
 ```
-git config --global user.name "..."
-git config --global user.email "..."
-git config --global color.ui auto
+sudo yum install nodejs
+sudo npm install http-server -g
+sudo npm i -g raml2html
 ```
 
-## Some tools
+# git 2.x
 
-Installed in `/opt` directory, for example, 
-
-```
-user@uvm:/opt$ tree -L 2
-.
-├── apache-maven
-│   └── apache-maven-3.2.2
-└── groovy
-│   └── groovy-2.3.7
-├── jdk
-│   └── jdk1.7.0_65
-├── node
-│   └── node-v0.10.29-linux-x86
-├── packages
-│   ├── esl-erlang_17.1-1~ubuntu~trusty_i386.deb
-│   └── rabbitmq-server_3.3.4-1_all.deb
-├── scala
-│   └── scala-2.11.4
-└── vertx
-    └── vert.x-2.1.2
-```
-
-## Bash
-
-Edited `.bashrc` like, for example,
+#### as superuser
 
 ```
-PS1='${debian_chroot:+($debian_chroot)}\[\033[00;36m\]\u@\h\[\033[00m\]:\[\033[00;36m\]\w\[\033[00m\]\$ '
-
-# aliases
-alias ls='ls -F --color=auto'
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
-alias eclipse='/home/user/bin/eclipse/eclipse-standard-luna/eclipse'
-
-# environment variables 
-export JAVA_HOME="/opt/jdk/jdk1.7.0_65"
-export M2_HOME="/opt/apache-maven/apache-maven-3.2.2"
-export M2="$M2_HOME/bin"
-export MAVEN_OPTS="-Dfile.encoding=UTF8"
-export NODE_BIN="/opt/node/node-v0.10.29-linux-x86/bin"
-export VERTX_BIN="/opt/vertx/vert.x-2.1.2/bin"
-export GROOVY_HOME="/opt/groovy/groovy-2.3.6"
-export SCALA_HOME="/opt/scala/scala-2.11.4"
-export PATH="$VERTX_BIN:$NODE_BIN:$JAVA_HOME/bin:$M2:.:$PATH"
-export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tz=01;31:*.rpm=01;31:*.cpio=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.png=01;35:*.tif=01;35:"
-export LS_COLORS="$LS_COLORS:*.c=00;32:*.cc=00;32:*.cpp=00;32:*.py=00;32:*.java=00;32:*.class=00;33:*.jar=00;33:*.tar=00;31:*.gz=00;31:*.zip=00;31:"
+sudo yum install http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm
+sudo yum install git
 ```
-* Note that, `LS_COLORS` setting is added for `tree`
+
+# bash-git-prompt
+
+#### as non-superuser
+
+After following git-setup and custom-theme-configuration in:
+
+https://github.com/magicmonty/bash-git-prompt
+
+Add following lines in `.bashrc`:
+
+```
+GIT_PROMPT_ONLY_IN_REPO=1
+GIT_PROMPT_THEME=Custom
+GIT_PROMPT_THEME_FILE=/.../.git-prompt-colors.sh
+source ~/.bash-git-prompt/gitprompt.sh
+```
+
+in `.git-prompt-colors.sh`
+
+```
+# This theme for gitprompt.sh is optimized for the "Solarized Dark" and "Solarized Light" color schemes
+# based on "Solarized Extravagant", with user@host on the second line and some things removed.
+
+function override_git_prompt_colors() {
+  GIT_PROMPT_THEME_NAME='Solarized UserHost'
+  GIT_PROMPT_STAGED="${Yellow}● "
+  GIT_PROMPT_UNTRACKED="${Cyan}… "
+  GIT_PROMPT_STASHED="${BoldMagenta}⚑ "
+  GIT_PROMPT_CLEAN="${Green}✔ "
+  GIT_PROMPT_COMMAND_OK="${Green}✔ "
+  GIT_PROMPT_COMMAND_FAIL="${Red}✘ "
+
+  GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_${Cyan}\\u@\\h ${Yellow}${PathShort}"
+  GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+  GIT_PROMPT_END_USER="\n${White}${Time12a} $ ${ResetColor}"
+  GIT_PROMPT_END_ROOT="\n${White}${Time12a} #️ ${ResetColor}"
+
+  GIT_PROMPT_LEADING_SPACE=1
+  GIT_PROMPT_PREFIX="${Cyan}("
+  GIT_PROMPT_SUFFIX="${Cyan})" 
+  GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="✭"
+}
+
+reload_git_prompt_colors 'Solarized UserHost'
+```
+
+# bash-git-prompt
+
+#### as non-superuser
